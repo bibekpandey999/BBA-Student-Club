@@ -11,11 +11,11 @@ export default function About() {
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="grid md:grid-cols-2 gap-12 items-center"> 
           {/* Left content */}
           <div>
             <p className="text-lg text-foreground/80 mb-6 leading-relaxed">
-              BBA Student Club BUMC is a non-profit, non-political organization established for the welfare and development of BBA (Bachelor of Business Administration) students at Butwal Multiple Campus in Golpark, Butwal, Nepal.
+              Butwal Multiple Campus (BMC) is one of the oldest and most prestigious constituent campuses of Tribhuvan University, located in Butwal, Rupandehi district of Nepal. Established in 2030 B.S. (1973 A.D.), the campus has played a significant role in providing quality higher education in the western region of the country. It offers a wide range of academic programs at the undergraduate and postgraduate levels in faculties such as Management, Humanities, Education, and Science. With a large student population and experienced faculty members, BMC has built a strong reputation for academic excellence and discipline.
             </p>
             <p className="text-lg text-foreground/80 mb-6 leading-relaxed">
               Our community is dedicated to fostering professional growth, academic excellence, and meaningful relationships among our members. We organize various activities, workshops, and events to enhance the educational experience and career prospects of our students.

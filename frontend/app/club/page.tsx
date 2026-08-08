@@ -125,35 +125,35 @@ export default function ClubPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-white flex flex-col justify-between">
+    <main className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between">
       {/* Navbar */}
       <Navbar/>
 
       {/* Main Content Sections */}
       <div className="flex-grow">
         {/* 1. Hero Section */}
-      <section
-  id="home"
-  className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FAF8F5] via-[#F4EFEA] to-[#EAE3DA] pt-16 px-4"
->
-  {/* Soft ambient light effects for cream/white background */}
-  <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none"></div>
-  <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-200/40 rounded-full blur-[120px] pointer-events-none"></div>
-  <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-100/60 rounded-full blur-[100px] pointer-events-none"></div>
+        <section
+          id="home"
+          className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FAF8F5] via-[#F4EFEA] to-[#EAE3DA] pt-16 px-4"
+        >
+          {/* Soft ambient light effects for cream/white background */}
+          <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none"></div>
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-200/40 rounded-full blur-[120px] pointer-events-none"></div>
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-100/60 rounded-full blur-[100px] pointer-events-none"></div>
 
           <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-2 leading-tight">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-2 leading-tight">
               BBA BUTWAL MULTIPLE CAMPUS
             </h1>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-green-400 mb-6 leading-tight">
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-emerald-600 mb-6 leading-tight">
               BBA STUDENT CLUB
             </h2>
-            <p className="text-base sm:text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">
               A non-profit, non-political community of BBA students dedicated to personal growth, professional development, and meaningful connections. Together, we build excellence and create lasting memories.
             </p>
             <button
               onClick={() => scrollToSection('about')}
-              className="inline-block px-8 py-3 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-emerald-500/25 cursor-pointer"
+              className="inline-block px-8 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg shadow-emerald-500/25 cursor-pointer"
             >
               Learn More
             </button>
@@ -161,11 +161,11 @@ export default function ClubPage() {
         </section>
 
         {/* 2. About Section */}
-        <section id="about" className="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8">
+        <section id="about" className="py-20 bg-[#F4EFEA] px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">About BBA Student Club BUMC</h2>
-              <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+              <div className="w-24 h-1 bg-emerald-600 mx-auto rounded-full"></div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -183,23 +183,23 @@ export default function ClubPage() {
                 </p>
 
                 <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
-                    <Target className="w-8 h-8 text-primary mb-2" />
+                  <div className="bg-[#FAF8F5] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-[#EAE3DA]">
+                    <Target className="w-8 h-8 text-emerald-600 mb-2" />
                     <h3 className="font-semibold text-sm text-gray-900">Welfare</h3>
                   </div>
-                  <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
-                    <Eye className="w-8 h-8 text-primary mb-2" />
+                  <div className="bg-[#FAF8F5] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-[#EAE3DA]">
+                    <Eye className="w-8 h-8 text-emerald-600 mb-2" />
                     <h3 className="font-semibold text-sm text-gray-900">Development</h3>
                   </div>
-                  <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-gray-200">
-                    <Zap className="w-8 h-8 text-primary mb-2" />
+                  <div className="bg-[#FAF8F5] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-[#EAE3DA]">
+                    <Zap className="w-8 h-8 text-emerald-600 mb-2" />
                     <h3 className="font-semibold text-sm text-gray-900">Excellence</h3>
                   </div>
                 </div>
               </div>
 
               <div className="flex items-center justify-center">
-                <div className="w-64 h-64 bg-gradient-to-br from-primary to-emerald-700 rounded-full flex items-center justify-center shadow-2xl overflow-hidden animate-[spin_6s_linear_infinite]">
+                <div className="w-64 h-64 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-full flex items-center justify-center shadow-2xl overflow-hidden animate-[spin_6s_linear_infinite]">
                   <img src="/bba-logo.jpg" alt="BBA Student Club Logo" className="w-full h-full object-cover" />
                 </div>
               </div>
@@ -208,30 +208,30 @@ export default function ClubPage() {
         </section>
 
         {/* 3. History Section */}
-        <section id="history" className="py-20 bg-white px-4 sm:px-6 lg:px-8">
+        <section id="history" className="py-20 bg-[#FAF8F5] px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Our Journey</h2>
-              <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+              <div className="w-24 h-1 bg-emerald-600 mx-auto rounded-full"></div>
               <p className="text-lg text-gray-600 mt-4">The history and growth of BBA Student Club BUMC</p>
             </div>
 
             <div className="relative">
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-primary opacity-20"></div>
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-emerald-600 opacity-20"></div>
 
               <div className="space-y-12">
                 {milestones.map((milestone, index) => (
                   <div key={index} className={`flex ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
                     <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}>
-                      <div className="bg-gray-50 p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-                        <h3 className="text-2xl font-bold text-primary mb-2">{milestone.title}</h3>
+                      <div className="bg-[#F4EFEA] p-6 rounded-lg border border-[#EAE3DA] hover:shadow-lg transition-shadow">
+                        <h3 className="text-2xl font-bold text-emerald-600 mb-2">{milestone.title}</h3>
                         <p className="text-sm text-gray-500 mb-2 font-semibold">{milestone.year}</p>
                         <p className="text-gray-700">{milestone.description}</p>
                       </div>
                     </div>
 
                     <div className="w-0 flex justify-center">
-                      <div className="w-5 h-5 bg-white border-4 border-primary rounded-full relative z-10"></div>
+                      <div className="w-5 h-5 bg-[#FAF8F5] border-4 border-emerald-600 rounded-full relative z-10"></div>
                     </div>
 
                     <div className="w-1/2"></div>
@@ -243,11 +243,11 @@ export default function ClubPage() {
         </section>
 
         {/* 4. Leadership Team Section */}
-        <section id="team" className="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8">
+        <section id="team" className="py-20 bg-[#F4EFEA] px-4 sm:px-6 lg:px-8">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Leadership Team</h2>
-              <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+              <div className="w-24 h-1 bg-emerald-600 mx-auto rounded-full"></div>
               <p className="text-lg text-gray-600 mt-4">
                 Meet the dedicated team members leading BBA Student Club BUMC
               </p>
@@ -255,7 +255,7 @@ export default function ClubPage() {
 
             {teamLoading && (
               <div className="flex justify-center items-center py-12">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
               </div>
             )}
             {teamError && <p className="text-center text-red-500 font-medium">{teamError}</p>}
@@ -265,9 +265,9 @@ export default function ClubPage() {
                 {teamMembers.map((member) => (
                   <div
                     key={member._id}
-                    className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 group flex flex-col w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.35rem)] max-w-sm"
+                    className="bg-[#FAF8F5] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-[#EAE3DA] group flex flex-col w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.35rem)] max-w-sm"
                   >
-                    <div className="h-56 flex items-center justify-center overflow-hidden relative bg-gray-100">
+                    <div className="h-56 flex items-center justify-center overflow-hidden relative bg-[#EAE3DA]/50">
                       {member.image && member.image.includes('/') ? (
                         <img
                           src={member.image}
@@ -284,7 +284,7 @@ export default function ClubPage() {
                     <div className="p-6 flex flex-col flex-grow">
                       <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
                       <div className="mb-2">
-                        <span className="inline-block px-3 py-1 text-xs font-bold text-primary bg-primary/10 rounded-full border border-primary/25 shadow-sm">
+                        <span className="inline-block px-3 py-1 text-xs font-bold text-emerald-700 bg-emerald-100/60 rounded-full border border-emerald-200 shadow-sm">
                           {member.role}
                         </span>
                       </div>
@@ -293,7 +293,7 @@ export default function ClubPage() {
                         <div className="mb-3">
                           <a
                             href={`mailto:${member.email}?subject=Inquiry%20regarding%20BBA%20Student%20Club&body=Hi%20${encodeURIComponent(member.name)},%0D%0A%0D%0AI would like to connect with you regarding...`}
-                            className="text-xs font-medium text-primary hover:underline break-all"
+                            className="text-xs font-medium text-emerald-600 hover:underline break-all"
                           >
                             {member.email}
                           </a>
@@ -308,7 +308,7 @@ export default function ClubPage() {
                             href={member.socialLinks.linkedin}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-2 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors"
+                            className="p-2 bg-[#EAE3DA]/60 rounded-lg hover:bg-emerald-600 hover:text-white transition-colors"
                             title="LinkedIn Profile"
                           >
                             <Linkedin size={18} />
@@ -319,7 +319,7 @@ export default function ClubPage() {
                             href={member.socialLinks.github}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-2 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors"
+                            className="p-2 bg-[#EAE3DA]/60 rounded-lg hover:bg-emerald-600 hover:text-white transition-colors"
                             title="GitHub Profile"
                           >
                             <Github size={18} />
@@ -330,7 +330,7 @@ export default function ClubPage() {
                             href={member.socialLinks.instagram}
                             target="_blank"
                             rel="noreferrer"
-                            className="p-2 bg-gray-100 rounded-lg hover:bg-primary hover:text-white transition-colors"
+                            className="p-2 bg-[#EAE3DA]/60 rounded-lg hover:bg-emerald-600 hover:text-white transition-colors"
                             title="Instagram Profile"
                           >
                             <Instagram size={18} />
@@ -346,13 +346,13 @@ export default function ClubPage() {
         </section>
 
         {/* 5. President Message Section */}
-        <section id="president" className="py-20 bg-white px-4 sm:px-6 lg:px-8">
+        <section id="president" className="py-20 bg-[#FAF8F5] px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
                 Message from Our President
               </h2>
-              <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+              <div className="w-24 h-1 bg-emerald-600 mx-auto rounded-full"></div>
             </div>
 
             {presidentLoading ? (
@@ -362,7 +362,7 @@ export default function ClubPage() {
             ) : presidentData ? (
               <div className="grid md:grid-cols-2 gap-12 items-center">
                 <div className="flex flex-col items-center">
-                  <div className="w-64 h-64 bg-gradient-to-br from-primary to-emerald-700 rounded-lg shadow-lg flex items-center justify-center relative overflow-hidden bg-gray-100">
+                  <div className="w-64 h-64 bg-gradient-to-br from-emerald-600 to-teal-700 rounded-lg shadow-lg flex items-center justify-center relative overflow-hidden bg-[#EAE3DA]">
                     {presidentData.image ? (
                       <img
                         src={presidentData.image}
@@ -376,11 +376,11 @@ export default function ClubPage() {
                   <h3 className="mt-4 text-xl font-bold text-gray-900 text-center">
                     {presidentData.name}
                   </h3>
-                  <p className="text-primary font-semibold text-sm">Club President</p>
+                  <p className="text-emerald-600 font-semibold text-sm">Club President</p>
                 </div>
 
                 <div>
-                  <blockquote className="border-l-4 border-primary pl-6">
+                  <blockquote className="border-l-4 border-emerald-600 pl-6">
                     <p className="text-lg text-gray-700 mb-6 leading-relaxed italic whitespace-pre-line">
                       &quot;{presidentData.description}&quot;
                     </p>
@@ -388,7 +388,7 @@ export default function ClubPage() {
                       <p className="font-bold text-gray-900 text-lg">
                         BBA Student Club
                       </p>
-                      <p className="text-primary font-semibold">Butwal Multiple Campus</p>
+                      <p className="text-emerald-600 font-semibold">Butwal Multiple Campus</p>
                     </div>
                   </blockquote>
                 </div>
@@ -400,17 +400,17 @@ export default function ClubPage() {
             )}
 
             <div className="mt-16 grid md:grid-cols-3 gap-8">
-              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+              <div className="text-center p-6 bg-[#F4EFEA] rounded-lg border border-[#EAE3DA] hover:shadow-md transition-shadow">
                 <div className="text-4xl mb-3">🎓</div>
                 <h3 className="font-bold text-gray-900 mb-2">Professional Growth</h3>
                 <p className="text-sm text-gray-600">Developing skills and knowledge for successful careers</p>
               </div>
-              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+              <div className="text-center p-6 bg-[#F4EFEA] rounded-lg border border-[#EAE3DA] hover:shadow-md transition-shadow">
                 <div className="text-4xl mb-3">🤝</div>
                 <h3 className="font-bold text-gray-900 mb-2">Community</h3>
                 <p className="text-sm text-gray-600">Building meaningful connections and lasting friendships</p>
               </div>
-              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+              <div className="text-center p-6 bg-[#F4EFEA] rounded-lg border border-[#EAE3DA] hover:shadow-md transition-shadow">
                 <div className="text-4xl mb-3">✨</div>
                 <h3 className="font-bold text-gray-900 mb-2">Welfare</h3>
                 <p className="text-sm text-gray-600">Ensuring the wellbeing and success of all members</p>
