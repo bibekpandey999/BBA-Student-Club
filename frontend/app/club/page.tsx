@@ -1,6 +1,6 @@
 'use client';
 
-import { Menu, X, LogIn, Target, Eye, Zap, Linkedin, Github, Instagram, ArrowRight, Sparkles, ShieldCheck, Users } from 'lucide-react';
+import { Menu, X, LogIn, Target, Eye, Zap, Linkedin, Github, Instagram, ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -103,32 +103,36 @@ export default function ClubPage() {
       {/* Main Content Sections */}
       <div className="flex-grow">
         
-        {/* 1. Modern Refined Hero Section */}
+        {/* 1. Modern Refined Hero Section with Gorgeous Gradient/Mesh Background */}
         <section
           id="home"
           className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-gray-900 to-emerald-950 pt-24 pb-16 px-4 sm:px-6 lg:px-8"
         >
-          {/* Abstract background design elements */}
-          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/15 rounded-full blur-[120px] pointer-events-none"></div>
-          <div className="absolute bottom-10 right-10 w-96 h-96 bg-teal-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+          {/* Abstract decorative grid and glowing light elements */}
+          <div className="absolute inset-0 opacity-25 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none"></div>
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-emerald-500/20 rounded-full blur-[140px] pointer-events-none animate-pulse"></div>
+          <div className="absolute bottom-10 right-10 w-96 h-96 bg-teal-500/15 rounded-full blur-[110px] pointer-events-none"></div>
+          <div className="absolute top-20 left-10 w-80 h-80 bg-green-600/10 rounded-full blur-[100px] pointer-events-none"></div>
 
           <div className="relative z-10 text-center max-w-4xl mx-auto">
             {/* Pill Badge */}
-            <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs sm:text-sm font-medium mb-6 backdrop-blur-md shadow-inner animate-fade-in">
+            <div className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs sm:text-sm font-medium mb-6 backdrop-blur-md shadow-inner">
               <Sparkles size={15} />
               <span>Butwal Multiple Campus • Golpark, Butwal</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white mb-6 tracking-tight leading-tight">
-              Empowering Future <br />
-              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-green-500 bg-clip-text text-transparent">
-                Business Leaders
-              </span>
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-3 tracking-tight">
+              BBA BUTWAL MULTIPLE CAMPUS
             </h1>
+            
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight">
+              <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-green-500 bg-clip-text text-transparent">
+                BBA STUDENT CLUB
+              </span>
+            </h2>
 
-            <p className="text-base sm:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-              A dynamic non-profit community dedicated to personal growth, professional excellence, and meaningful connections for BBA students.
+            <p className="text-base sm:text-lg text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
+              A non-profit, non-political community of BBA students dedicated to personal growth, professional development, and meaningful connections. Together, we build excellence and create lasting memories.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -136,7 +140,7 @@ export default function ClubPage() {
                 onClick={() => scrollToSection('about')}
                 className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-4 bg-emerald-500 text-white font-semibold rounded-xl hover:bg-emerald-600 transition-all duration-300 transform hover:-translate-y-0.5 shadow-xl shadow-emerald-500/20 cursor-pointer group"
               >
-                <span>Explore Club</span>
+                <span>Learn More</span>
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
               
@@ -193,8 +197,8 @@ export default function ClubPage() {
                     <span>+977 974-8704821</span>
                   </p>
                   <p className="text-sm text-gray-700 flex items-center space-x-2">
-                    <span className="font-semibold text-gray-900">Community:</span> 
-                    <span>427+ active followers</span>
+                    <span className="font-semibold text-gray-900">Members:</span> 
+                    <span>427+ followers</span>
                   </p>
                 </div>
 
