@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000;
 app.set('trust proxy', 1);
 
 const allowedOrigins = [
-    "https://bba-student-club.vercel.app/",
+    "https://bba-student-club.vercel.app",
     "http://127.0.0.1:3000",
 ];
 
