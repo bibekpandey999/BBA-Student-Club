@@ -39,7 +39,8 @@ app.use(cors({
         if (allowedOrigins.includes(origin)) {
             return callback(null, true);
         }
-        if (/^https:\/\/pharmacy-management-system-.*-ramitnpns-projects\.vercel\.app$/.test(origin)) {
+        // Change this regex to match bba-student-club preview links
+        if (/^https:\/\/bba-student-club.*\.vercel\.app$/.test(origin)) {
             return callback(null, true);
         }
         callback(new Error("Not allowed by CORS: " + origin));
