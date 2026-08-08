@@ -59,7 +59,7 @@ export default function Navbar() {
             className="flex items-center space-x-2 cursor-pointer group"
           >
             <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center overflow-hidden">
-              <img src="/bba-logo.jpg" alt="BBA Student Club" className="w-full h-full object-cover" />
+              <img src="/Butwal-Multiple-Campus.jpg" alt="BBA Student Club" className="w-full h-full object-cover" />
             </div>
             <span className={`font-bold text-lg transition-colors ${isScrolled ? 'text-primary' : 'text-white'} group-hover:text-primary hidden sm:inline`}>
               Butwal Multiple Campus BBA
