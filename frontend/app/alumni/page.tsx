@@ -94,7 +94,7 @@ export default function AlumniPage() {
                 <img src="/bba-logo.jpg" alt="BBA Student Club" className="w-full h-full object-cover" />
               </div>
               <span className="font-bold text-lg text-primary group-hover:text-primary/80 hidden sm:inline">
-                BBA BUMC
+                Butwal Multiple Campus BBA
               </span>
             </button>
 

@@ -62,7 +62,7 @@ export default function Navbar() {
               <img src="/bba-logo.jpg" alt="BBA Student Club" className="w-full h-full object-cover" />
             </div>
             <span className={`font-bold text-lg transition-colors ${isScrolled ? 'text-primary' : 'text-white'} group-hover:text-primary hidden sm:inline`}>
-              BBA BUMC
+              Butwal Multiple Campus BBA
             </span>
           </button>
 

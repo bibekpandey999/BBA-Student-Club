@@ -88,7 +88,7 @@ export default function ResultsPage() {
                 <img src="/bba-logo.jpg" alt="BBA Student Club" className="w-full h-full object-cover" />
               </div>
               <span className="font-bold text-lg text-primary group-hover:opacity-90 hidden sm:inline">
-                BBA BUMC
+                Butwal Multiple Campus BBA 
               </span>
             </button>
 

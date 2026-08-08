@@ -23,12 +23,9 @@ export default function Hero() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-2 leading-tight">
-          BBA BUTWAL MULTIPLE CAMPUS
-        </h1>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-green-400 mb-6 leading-tight">
-  BBA STUDENT CLUB
-</h2>
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-green-400 mb-6 leading-tight">
+      BUTWAL MULTIPLE CAMPUS BBA
+</h1>
         <p className="text-base sm:text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
           A non-profit, non-political community of BBA students dedicated to personal growth, professional development, and meaningful connections. Together, we build excellence and create lasting memories.
         </p>
