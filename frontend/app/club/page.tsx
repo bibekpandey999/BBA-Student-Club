@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar';
 
 export default function ClubPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -125,23 +124,92 @@ export default function ClubPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between">
-      {/* Navbar */}
-      <Navbar/>
+    <main className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between pt-16">
+      {/* Inline Navbar Component */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-[#EAE3DA]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex-shrink-0 cursor-pointer" onClick={() => handleNavClick('home')}>
+              <span className="text-xl font-bold text-gray-900">BBA BUMC</span>
+            </div>
+            
+            {/* Desktop Menu */}
+            <div className="hidden lg:flex items-center space-x-1 xl:space-x-3">
+              {navLinks.map((link) => (
+                <button
+                  key={link.id}
+                  onClick={() => handleNavClick(link.id, link.isPage)}
+                  className="px-3 py-2 rounded-md text-xs xl:text-sm font-medium text-gray-700 hover:text-emerald-600 hover:bg-[#F4EFEA] transition-colors cursor-pointer"
+                >
+                  {link.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Login / Action Button */}
+            <div className="hidden lg:flex items-center">
+              <button
+                onClick={() => router.push('/login')}
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm cursor-pointer"
+              >
+                <LogIn size={16} />
+                Login
+              </button>
+            </div>
+
+            {/* Mobile menu button */}
+            <div className="flex lg:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded-md text-gray-700 hover:text-emerald-600 hover:bg-[#F4EFEA] focus:outline-none cursor-pointer"
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden bg-[#FAF8F5] border-b border-[#EAE3DA] px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => handleNavClick(link.id, link.isPage)}
+                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-emerald-600 hover:bg-[#F4EFEA] cursor-pointer"
+              >
+                {link.label}
+              </button>
+            ))}
+            <div className="pt-2">
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  router.push('/login');
+                }}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-base font-medium hover:bg-emerald-700 transition-colors shadow-sm cursor-pointer"
+              >
+                <LogIn size={18} />
+                Login
+              </button>
+            </div>
+          </div>
+        )}
+      </nav>
 
       {/* Main Content Sections */}
       <div className="flex-grow">
         {/* 1. Hero Section */}
         <section
           id="home"
-          className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FAF8F5] via-[#F4EFEA] to-[#EAE3DA] pt-16 px-4"
+          className="relative min-h-[calc(100vh-4rem)] w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FAF8F5] via-[#F4EFEA] to-[#EAE3DA] px-4"
         >
           {/* Soft ambient light effects for cream/white background */}
           <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none"></div>
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-200/40 rounded-full blur-[120px] pointer-events-none"></div>
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-100/60 rounded-full blur-[100px] pointer-events-none"></div>
 
-          <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+          <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto py-12">
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-2 leading-tight">
               BBA BUTWAL MULTIPLE CAMPUS
             </h1>
