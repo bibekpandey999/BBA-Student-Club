@@ -51,7 +51,7 @@ export default function NoticesPage() {
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/notices');
+        const res = await fetch('https://bba-student-club.onrender.com/api/notices');
         const json = await res.json();
         if (json.success) {
           setNotices(json.data);

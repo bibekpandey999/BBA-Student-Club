@@ -51,7 +51,7 @@ export default function ResultsPage() {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/results');
+        const res = await fetch('https://bba-student-club.onrender.com/api/results');
         const json = await res.json();
         if (json.success) {
           setResults(json.data);

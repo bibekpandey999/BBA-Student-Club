@@ -12,7 +12,7 @@ export default function PastEvents() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/events');
+        const res = await fetch('https://bba-student-club.onrender.com/api/events');
         const json = await res.json();
         if (json.success) {
           setEvents(json.data);

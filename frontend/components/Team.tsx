@@ -11,7 +11,7 @@ export default function Team() {
   useEffect(() => {
     const fetchTeam = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/bod');
+        const res = await fetch('https://bba-student-club.onrender.com/api/bod');
         const data = await res.json();
         
         if (data.success) {

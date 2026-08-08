@@ -52,7 +52,7 @@ export default function AlumniPage() {
   useEffect(() => {
     const fetchAlumni = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/alumni');
+        const res = await fetch('https://bba-student-club.onrender.com/api/alumni');
         const data = await res.json();
 
         if (data.success) {

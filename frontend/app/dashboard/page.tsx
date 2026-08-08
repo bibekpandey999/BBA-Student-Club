@@ -7,7 +7,7 @@ import { LayoutDashboard, Users, MessageSquareText, Calendar, Image as ImageIcon
 const CLOUDINARY_UPLOAD_PRESET = 'yqrwxign';
 const CLOUDINARY_CLOUD_NAME = 'blmpiipa';
 const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://bba-student-club.onrender.com/api';
 
 // Helper: upload a file to Cloudinary and return secure_url
 async function uploadToCloudinary(file: File): Promise<string> {

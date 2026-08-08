@@ -9,7 +9,7 @@ export default function PresidentMessage() {
   useEffect(() => {
     const fetchPresidentMessage = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/president-message');
+        const res = await fetch('https://bba-student-club.onrender.com/api/president-message');
         const json = await res.json();
         if (json.success && json.data.length > 0) {
           setPresidentData(json.data[0]);
