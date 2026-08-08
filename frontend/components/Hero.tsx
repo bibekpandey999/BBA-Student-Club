@@ -27,7 +27,7 @@ export default function Hero() {
        BBA BUTWAL MULTIPLE CAMPUS
 </h1>
         <p className="text-base sm:text-lg text-white/80 mb-8 max-w-2xl mx-auto leading-relaxed">
-          A non-profit, non-political community of BBA students dedicated to personal growth, professional development, and meaningful connections. Together, we build excellence and create lasting memories.
+          Butwal Multiple Campus (BMC) is one of the oldest and most prestigious constituent campuses of Tribhuvan University, located in Butwal, Rupandehi district of Nepal. Established in 2030 B.S. (1973 A.D.), the campus has played a significant role in providing quality higher education in the western region of the country.
         </p>
     <button
   onClick={() => scrollToSection('about')}
