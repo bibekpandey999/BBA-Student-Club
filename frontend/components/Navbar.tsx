@@ -41,11 +41,7 @@ export default function Navbar() {
 
   const navLinks = [
     { label: 'Home', id: 'home' },
-    { label: 'About Us', id: 'about' },
     { label: 'Club', id: 'club', isPage: true },
-    { label: 'History', id: 'history' },
-    { label: 'Our Team', id: 'team' },
-    { label: 'President Message', id: 'president' },
     { label: 'Notices', id: 'notices', isPage: true },
     { label: 'Results', id: 'results', isPage: true },
     { label: 'Alumni', id: 'alumni', isPage: true },
