@@ -83,11 +83,7 @@ export default function ClubPage() {
 
   const navLinks = [
     { label: 'Home', id: 'home' },
-    { label: 'About Us', id: 'about' },
     { label: 'Club', id: 'club', isPage: true },
-    { label: 'History', id: 'history' },
-    { label: 'Our Team', id: 'team' },
-    { label: 'President Message', id: 'president' },
     { label: 'Notices', id: 'notices', isPage: true },
     { label: 'Results', id: 'results', isPage: true },
     { label: 'Alumni', id: 'alumni', isPage: true },
@@ -125,76 +121,85 @@ export default function ClubPage() {
 
   return (
     <main className="min-h-screen bg-[#FAF8F5] flex flex-col justify-between pt-16">
-      {/* Inline Navbar Component */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#FAF8F5]/90 backdrop-blur-md border-b border-[#EAE3DA]">
+      {/* Non-Transparent Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex-shrink-0 cursor-pointer" onClick={() => handleNavClick('home')}>
-              <span className="text-xl font-bold text-gray-900">BBA BUMC</span>
-            </div>
-            
-            {/* Desktop Menu */}
-            <div className="hidden lg:flex items-center space-x-1 xl:space-x-3">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <button
+              onClick={() => handleNavClick('home')}
+              className="flex items-center space-x-2 cursor-pointer group"
+            >
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center overflow-hidden">
+                <img src="/Butwal-Multiple-Campus.jpg" alt="BBA Student Club" className="w-full h-full object-cover" />
+              </div>
+              <span className="font-bold text-lg text-primary group-hover:text-primary hidden sm:inline">
+                Butwal Multiple Campus BBA
+              </span>
+            </button>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-6">
               {navLinks.map((link) => (
                 <button
                   key={link.id}
                   onClick={() => handleNavClick(link.id, link.isPage)}
-                  className="px-3 py-2 rounded-md text-xs xl:text-sm font-medium text-gray-700 hover:text-emerald-600 hover:bg-[#F4EFEA] transition-colors cursor-pointer"
+                  className="relative text-sm font-medium transition-all duration-200 py-1 group text-gray-700 hover:text-primary"
                 >
                   {link.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
                 </button>
               ))}
-            </div>
 
-            {/* Login / Action Button */}
-            <div className="hidden lg:flex items-center">
-              <button
-                onClick={() => router.push('/login')}
-                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors shadow-sm cursor-pointer"
+              {/* Desktop Login Button */}
+              <Link
+                href="/login"
+                className="flex items-center space-x-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 shadow-sm bg-primary text-white hover:bg-primary/90"
               >
                 <LogIn size={16} />
-                Login
-              </button>
+                <span>Login</span>
+              </Link>
             </div>
 
-            {/* Mobile menu button */}
-            <div className="flex lg:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded-md text-gray-700 hover:text-emerald-600 hover:bg-[#F4EFEA] focus:outline-none cursor-pointer"
-              >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 rounded-lg transition-colors hover:bg-gray-100 text-gray-800"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle Menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
+
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden bg-white border-b border-gray-100 shadow-xl rounded-b-2xl animate-in slide-in-from-top-2 duration-200">
+              <div className="px-4 pt-3 pb-4 space-y-1.5">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => handleNavClick(link.id, link.isPage)}
+                    className="block w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-primary/10 hover:text-primary transition-all duration-150"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+
+                {/* Mobile Login Button */}
+                <div className="pt-2 border-t border-gray-100 mt-2">
+                  <Link
+                    href="/login"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center justify-center space-x-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold bg-primary text-white hover:bg-primary/90 transition-all duration-150 shadow-sm"
+                  >
+                    <LogIn size={16} />
+                    <span>Login</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-
-        {/* Mobile Menu Dropdown */}
-        {isMobileMenuOpen && (
-          <div className="lg:hidden bg-[#FAF8F5] border-b border-[#EAE3DA] px-4 pt-2 pb-4 space-y-1 shadow-lg">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => handleNavClick(link.id, link.isPage)}
-                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-emerald-600 hover:bg-[#F4EFEA] cursor-pointer"
-              >
-                {link.label}
-              </button>
-            ))}
-            <div className="pt-2">
-              <button
-                onClick={() => {
-                  setIsMobileMenuOpen(false);
-                  router.push('/login');
-                }}
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg text-base font-medium hover:bg-emerald-700 transition-colors shadow-sm cursor-pointer"
-              >
-                <LogIn size={18} />
-                Login
-              </button>
-            </div>
-          </div>
-        )}
       </nav>
 
       {/* Main Content Sections */}
