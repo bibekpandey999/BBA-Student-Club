@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Menu, X, LogIn, Linkedin, Github,Facebook, Instagram, ArrowLeft, Mail, Phone, MapPin, Twitter } from 'lucide-react';
+import { Menu, X, LogIn, Linkedin, Github, Facebook, Instagram, ArrowLeft, Mail, Phone, MapPin, Twitter } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 
@@ -36,10 +36,7 @@ export default function AlumniPage() {
 
   const navLinks = [
     { label: 'Home', id: 'home' },
-    { label: 'About Us', id: 'about' },
-    { label: 'History', id: 'history' },
-    { label: 'Our Team', id: 'team' },
-    { label: 'President Message', id: 'president' },
+    { label: 'Club', id: 'club', isPage: true },
     { label: 'Notices', id: 'notices', isPage: true },
     { label: 'Results', id: 'results', isPage: true },
     { label: 'Alumni', id: 'alumni', isPage: true },
@@ -162,7 +159,6 @@ export default function AlumniPage() {
 
       {/* Main Content */}
       <main className="flex-grow pt-28 pb-20 px-4 sm:px-6 lg:px-8 relative">
-
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Our Alumni</h2>

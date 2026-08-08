@@ -37,10 +37,7 @@ export default function ResultsPage() {
 
   const navLinks = [
     { label: 'Home', id: 'home' },
-    { label: 'About Us', id: 'about' },
-    { label: 'History', id: 'history' },
-    { label: 'Our Team', id: 'team' },
-    { label: 'President Message', id: 'president' },
+    { label: 'Club', id: 'club', isPage: true },
     { label: 'Notices', id: 'notices', isPage: true },
     { label: 'Results', id: 'results', isPage: true },
     { label: 'Alumni', id: 'alumni', isPage: true },
