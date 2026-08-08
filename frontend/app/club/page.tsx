@@ -135,8 +135,7 @@ export default function ClubPage() {
         <section
           id="home"
           className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-cover bg-center pt-16"
-          style={{ backgroundImage: `url('/Bg image.png')` }}
-        >
+         >
           <div className="absolute inset-0 bg-black/60"></div>
           <div className="absolute top-20 right-10 w-72 h-72 bg-emerald-500 opacity-20 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 left-10 w-72 h-72 bg-emerald-500 opacity-10 rounded-full blur-3xl"></div>
