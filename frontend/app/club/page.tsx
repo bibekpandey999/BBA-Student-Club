@@ -132,14 +132,14 @@ export default function ClubPage() {
       {/* Main Content Sections */}
       <div className="flex-grow">
         {/* 1. Hero Section */}
-       <section
+      <section
   id="home"
-  className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-950 via-gray-900 to-emerald-950 pt-16 px-4"
+  className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-tr from-emerald-600 via-teal-600 to-green-500 pt-16 px-4"
 >
-  {/* Abstract decorative background lighting and subtle grid */}
-  <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
-  <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[130px] pointer-events-none animate-pulse"></div>
-  <div className="absolute bottom-10 right-10 w-80 h-80 bg-teal-500/15 rounded-full blur-[100px] pointer-events-none"></div>
+  {/* Abstract glowing highlights and subtle pattern */}
+  <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+  <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/15 rounded-full blur-[100px] pointer-events-none animate-pulse"></div>
+  <div className="absolute bottom-10 right-10 w-80 h-80 bg-teal-300/25 rounded-full blur-[90px] pointer-events-none"></div>
 
           <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
             <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-2 leading-tight">
