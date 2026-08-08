@@ -14,9 +14,9 @@ export default function Home() {
       <Navbar />
       <Hero />
       <About />
-      <History />
+      {/* <History />
       <Team />
-      <PresidentMessage />
+      <PresidentMessage /> */}
       <Gallery />
       <PastEvents />
       <Footer />
