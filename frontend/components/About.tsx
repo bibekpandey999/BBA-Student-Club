@@ -44,11 +44,11 @@ export default function About() {
           </div>
 
           {/* Right - Club Logo */}
-          <div className="flex items-center justify-center">
-            <div className="w-64 h-64 bg-gradient-to-br from-primary to-emerald-700 rounded-full flex items-center justify-center shadow-2xl overflow-hidden animate-[spin_6s_linear_infinite]">
-              <img src="/Butwal-Multiple-Campus.jpg" alt="BBA Student Club Logo" className="w-full h-full object-cover" />
-            </div>
-          </div>
+        <div className="flex items-center justify-center">
+  <div className="w-80 h-80 sm:w-96 sm:h-96 bg-gradient-to-br from-primary to-emerald-700 rounded-full flex items-center justify-center shadow-2xl overflow-hidden animate-[spin_6s_linear_infinite]">
+    <img src="/Butwal-Multiple-Campus.jpg" alt="BBA Student Club Logo" className="w-full h-full object-cover" />
+  </div>
+</div>
         </div>
       </div>
     </section>
