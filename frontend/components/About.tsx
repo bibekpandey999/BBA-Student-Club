@@ -11,7 +11,7 @@ export default function About() {
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 items-center"> 
+        <div className="grid md:grid-cols-2 gap-12 items-start"> 
           {/* Left content */}
           <div>
             <p className="text-lg text-foreground/80 mb-6 leading-relaxed">
@@ -20,35 +20,47 @@ export default function About() {
             <p className="text-lg text-foreground/80 mb-6 leading-relaxed">
               The campus is well-equipped with physical infrastructure, including classrooms, a library, computer labs, and science laboratories, which support both teaching and research activities. Over the years, Butwal Multiple Campus has served as a center of learning for students from diverse social and geographical backgrounds, contributing significantly to the region's educational and social development. Its commitment to academic quality, along with its central location in Butwal, makes it a popular choice for students pursuing higher education in Nepal.
             </p>
-            <p className="text-base text-foreground/70 mb-8">
-              <strong>Location:</strong> Golpark, Butwal, Nepal<br />
-              <strong>Contact:</strong> +977 974-8704821<br />
-              <strong>Members:</strong> 427+ followers
-            </p>
+            <div className="bg-white/50 backdrop-blur-sm p-6 rounded-xl border border-border mb-8 shadow-sm">
+              <p className="text-base text-foreground/80 space-y-1">
+                <strong className="text-foreground">Location:</strong> Golpark, Butwal, Nepal<br />
+                <strong className="text-foreground">Contact:</strong> +977 974-8704821<br />
+                <strong className="text-foreground">Members:</strong> 427+ followers
+              </p>
+            </div>
 
             {/* Cards grid */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border">
-                <Target className="w-8 h-8 text-primary mb-2" />
+              <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-border group hover:-translate-y-1">
+                <Target className="w-8 h-8 text-primary mb-2 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-sm text-foreground">Welfare</h3>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border">
-                <Eye className="w-8 h-8 text-primary mb-2" />
+              <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-border group hover:-translate-y-1">
+                <Eye className="w-8 h-8 text-primary mb-2 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-sm text-foreground">Development</h3>
               </div>
-              <div className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow border border-border">
-                <Zap className="w-8 h-8 text-primary mb-2" />
+              <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-border group hover:-translate-y-1">
+                <Zap className="w-8 h-8 text-primary mb-2 group-hover:scale-110 transition-transform" />
                 <h3 className="font-semibold text-sm text-foreground">Excellence</h3>
               </div>
             </div>
           </div>
 
           {/* Right - Club Logo */}
-        <div className="flex items-center justify-center">
-  <div className="w-80 h-80 sm:w-96 sm:h-96 bg-gradient-to-br from-primary to-emerald-700 rounded-full flex items-center justify-center shadow-2xl overflow-hidden animate-[spin_6s_linear_infinite]">
-    <img src="/Butwal-Multiple-Campus.jpg" alt="BBA Student Club Logo" className="w-full h-full object-cover" />
-  </div>
-</div>
+          <div className="flex items-center justify-center md:justify-end pt-2 md:pt-4">
+            <div className="relative group">
+              {/* Soft decorative backdrop glow */}
+              <div className="absolute -inset-3 bg-primary/10 rounded-full blur-2xl group-hover:bg-primary/20 transition-all duration-500"></div>
+              
+              {/* Refined container placed slightly higher with a smooth professional hover scale instead of dizzying spin */}
+              <div className="relative w-80 h-80 sm:w-96 sm:h-96 rounded-full p-4 bg-white shadow-2xl border border-border flex items-center justify-center overflow-hidden transition-transform duration-500 hover:scale-[1.02]">
+                <img 
+                  src="/Butwal-Multiple-Campus.jpg" 
+                  alt="BBA Student Club Logo" 
+                  className="w-full h-full object-cover rounded-full shadow-inner" 
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
