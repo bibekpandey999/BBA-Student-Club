@@ -18,7 +18,7 @@ export default function About() {
               Butwal Multiple Campus (BMC) is one of the oldest and most prestigious constituent campuses of Tribhuvan University, located in Butwal, Rupandehi district of Nepal. Established in 2030 B.S. (1973 A.D.), the campus has played a significant role in providing quality higher education in the western region of the country. It offers a wide range of academic programs at the undergraduate and postgraduate levels in faculties such as Management, Humanities, Education, and Science. With a large student population and experienced faculty members, BMC has built a strong reputation for academic excellence and discipline.
             </p>
             <p className="text-lg text-foreground/80 mb-6 leading-relaxed">
-              Our community is dedicated to fostering professional growth, academic excellence, and meaningful relationships among our members. We organize various activities, workshops, and events to enhance the educational experience and career prospects of our students.
+              The campus is well-equipped with physical infrastructure, including classrooms, a library, computer labs, and science laboratories, which support both teaching and research activities. Over the years, Butwal Multiple Campus has served as a center of learning for students from diverse social and geographical backgrounds, contributing significantly to the region's educational and social development. Its commitment to academic quality, along with its central location in Butwal, makes it a popular choice for students pursuing higher education in Nepal.
             </p>
             <p className="text-base text-foreground/70 mb-8">
               <strong>Location:</strong> Golpark, Butwal, Nepal<br />
@@ -46,7 +46,7 @@ export default function About() {
           {/* Right - Club Logo */}
           <div className="flex items-center justify-center">
             <div className="w-64 h-64 bg-gradient-to-br from-primary to-emerald-700 rounded-full flex items-center justify-center shadow-2xl overflow-hidden animate-[spin_6s_linear_infinite]">
-              <img src="/bba-logo.jpg" alt="BBA Student Club Logo" className="w-full h-full object-cover" />
+              <img src="/Butwal-Multiple-Campus.jpg" alt="BBA Student Club Logo" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
