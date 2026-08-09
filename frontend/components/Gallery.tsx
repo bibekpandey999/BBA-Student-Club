@@ -30,7 +30,7 @@ export default function Gallery() {
   const displayImages = [...images].reverse();
 
   return (
-    <section id="gallery" className="py-20 bg-background px-4 sm:px-6 lg:px-8">
+    <section id="gallery" className="py-20 bg-white px-4 sm:px-6 lg:px-8">
      <div className="max-w-6xl mx-auto">
       <div className="text-center mb-16">
         <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Gallery</h2>
