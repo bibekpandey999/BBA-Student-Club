@@ -21,9 +21,9 @@ export default function Footer() {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden">
-                <img src="/bba-logo.jpg" alt="BBA Student Club" className="w-full h-full object-cover" />
+                <img src="/Butwal-Multiple-Campus.jpg" alt="BBA Student Club" className="w-full h-full object-cover" />
               </div>
-              <span className="font-bold text-xl">BBA BUMC</span>
+              <span className="font-bold text-xl"> BUMC BBA</span>
             </div>
             <p className="text-white/80 text-sm">Empowering BBA students through professional development, networking, and community welfare initiatives.</p>
           </div>
@@ -43,8 +43,8 @@ export default function Footer() {
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('team')} className="hover:text-white transition-colors">
-                  Our Team
+                <button onClick={() => scrollToSection('club')} className="hover:text-white transition-colors">
+                  BBA Student Club
                 </button>
               </li>
               <li>
