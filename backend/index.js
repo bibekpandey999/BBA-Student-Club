@@ -10,6 +10,7 @@ const Login = require("./models/login.js");
 const Alumni = require("./models/alumni.js");
 const Notice = require("./models/notice.js");
 const Result = require('./models/result.js');
+const ChiefMessage = require("./models/messageOfChief.js");
 const MongoStore = require('connect-mongo').default || require('connect-mongo');
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -393,6 +394,272 @@ app.delete("/api/president-message/:id", async (req, res) => {
         return res.status(500).json({ success: false, message: "Error deleting President message record." });
     }
 });
+
+
+
+
+// ==========================================
+// 🏛️ CHIEF MESSAGE ROUTES
+// ==========================================
+
+// POST Route to Save Chief Message Details
+app.post("/api/chief-message", async (req, res) => {
+    try {
+        const formData = req.body;
+
+        const newMessage = await ChiefMessage.create({
+            name: getValue(formData.name, ""),
+            description: getValue(formData.description, ""),
+            image: getValue(formData.image, "")
+        });
+
+        return res.status(201).json({ 
+            success: true, 
+            message: "Chief message saved successfully!", 
+            data: newMessage 
+        });
+
+    } catch (error) {
+        console.error("🔴 DATABASE WRITE CRASH:", error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Failed to write Chief message data to MongoDB.",
+            error: error.message 
+        });
+    }
+});
+
+// GET Route to fetch Chief Message(s)
+app.get("/api/chief-message", async (req, res) => {
+    console.log("DEBUG: Request received for /api/chief-message");
+    try {
+        const dbMessages = await ChiefMessage.find({});
+
+        const messages = dbMessages.map(msg => ({
+            id: msg._id,
+            _id: msg._id,
+            name: msg.name,
+            description: msg.description,
+            image: msg.image,
+            createdAt: msg.createdAt || new Date().toISOString()
+        }));
+
+        return res.status(200).json({
+            success: true,
+            count: messages.length,
+            data: messages 
+        });
+    } catch (error) {
+        console.error("🔴 Backend fetch failed:", error);
+        return res.status(500).json({ success: false, message: "Error fetching Chief message records." });
+    }
+});
+
+// PUT Route to Update Chief Message Details by ID
+app.put("/api/chief-message/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const formData = req.body;
+        console.log(`=== UPDATING CHIEF MESSAGE ID: ${id} ===`);
+
+        const existingMessage = await ChiefMessage.findById(id);
+        if (!existingMessage) {
+            return res.status(404).json({ success: false, message: "Chief message record not found." });
+        }
+
+        const newImage = getValue(formData.image, "");
+        const oldImage = existingMessage.image;
+
+        const updatedFields = {
+            name: getValue(formData.name, ""),
+            description: getValue(formData.description, ""),
+            image: newImage
+        };
+
+        const updatedMessage = await ChiefMessage.findByIdAndUpdate(
+            id,
+            { $set: updatedFields },
+            { new: true, runValidators: true }
+        );
+
+        if (oldImage && oldImage !== newImage) {
+            deleteCloudinaryImage(oldImage);
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Chief message record updated successfully!",
+            data: updatedMessage
+        });
+
+    } catch (error) {
+        console.error("🔴 Backend update failed:", error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Error updating Chief message record.",
+            error: error.message 
+        });
+    }
+});
+
+// DELETE Route to Remove a Chief Message Record by ID
+app.delete("/api/chief-message/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log(`=== DELETING CHIEF MESSAGE ID: ${id} ===`);
+
+        const deletedMessage = await ChiefMessage.findByIdAndDelete(id);
+
+        if (!deletedMessage) {
+            return res.status(404).json({ success: false, message: "Chief message record not found." });
+        }
+
+        await deleteCloudinaryImage(deletedMessage.image);
+
+        return res.status(200).json({
+            success: true,
+            message: "Chief message record deleted successfully!",
+            deletedMessageId: id
+        });
+    } catch (error) {
+        console.error("🔴 Backend deletion failed:", error);
+        return res.status(500).json({ success: false, message: "Error deleting Chief message record." });
+    }
+});
+
+
+
+
+// ==========================================
+// 🏛️ DIRECTOR MESSAGE ROUTES
+// ==========================================
+
+// POST Route to Save Director Message Details
+app.post("/api/director-message", async (req, res) => {
+    try {
+        const formData = req.body;
+
+        const newMessage = await DirectorMessage.create({
+            name: getValue(formData.name, ""),
+            description: getValue(formData.description, ""),
+            image: getValue(formData.image, "")
+        });
+
+        return res.status(201).json({ 
+            success: true, 
+            message: "Director message saved successfully!", 
+            data: newMessage 
+        });
+
+    } catch (error) {
+        console.error("🔴 DATABASE WRITE CRASH:", error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Failed to write Director message data to MongoDB.",
+            error: error.message 
+        });
+    }
+});
+
+// GET Route to fetch Director Message(s)
+app.get("/api/director-message", async (req, res) => {
+    console.log("DEBUG: Request received for /api/director-message");
+    try {
+        const dbMessages = await DirectorMessage.find({});
+
+        const messages = dbMessages.map(msg => ({
+            id: msg._id,
+            _id: msg._id,
+            name: msg.name,
+            description: msg.description,
+            image: msg.image,
+            createdAt: msg.createdAt || new Date().toISOString()
+        }));
+
+        return res.status(200).json({
+            success: true,
+            count: messages.length,
+            data: messages 
+        });
+    } catch (error) {
+        console.error("🔴 Backend fetch failed:", error);
+        return res.status(500).json({ success: false, message: "Error fetching Director message records." });
+    }
+});
+
+// PUT Route to Update Director Message Details by ID
+app.put("/api/director-message/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const formData = req.body;
+        console.log(`=== UPDATING DIRECTOR MESSAGE ID: ${id} ===`);
+
+        const existingMessage = await DirectorMessage.findById(id);
+        if (!existingMessage) {
+            return res.status(404).json({ success: false, message: "Director message record not found." });
+        }
+
+        const newImage = getValue(formData.image, "");
+        const oldImage = existingMessage.image;
+
+        const updatedFields = {
+            name: getValue(formData.name, ""),
+            description: getValue(formData.description, ""),
+            image: newImage
+        };
+
+        const updatedMessage = await DirectorMessage.findByIdAndUpdate(
+            id,
+            { $set: updatedFields },
+            { new: true, runValidators: true }
+        );
+
+        if (oldImage && oldImage !== newImage) {
+            deleteCloudinaryImage(oldImage);
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Director message record updated successfully!",
+            data: updatedMessage
+        });
+
+    } catch (error) {
+        console.error("🔴 Backend update failed:", error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Error updating Director message record.",
+            error: error.message 
+        });
+    }
+});
+
+// DELETE Route to Remove a Director Message Record by ID
+app.delete("/api/director-message/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log(`=== DELETING DIRECTOR MESSAGE ID: ${id} ===`);
+
+        const deletedMessage = await DirectorMessage.findByIdAndDelete(id);
+
+        if (!deletedMessage) {
+            return res.status(404).json({ success: false, message: "Director message record not found." });
+        }
+
+        await deleteCloudinaryImage(deletedMessage.image);
+
+        return res.status(200).json({
+            success: true,
+            message: "Director message record deleted successfully!",
+            deletedMessageId: id
+        });
+    } catch (error) {
+        console.error("🔴 Backend deletion failed:", error);
+        return res.status(500).json({ success: false, message: "Error deleting Director message record." });
+    }
+});
+
+
 
 
 // ==========================================
