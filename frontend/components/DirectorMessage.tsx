@@ -70,7 +70,7 @@ export default function DirectorMessage() {
                   <p className="font-bold text-foreground text-lg">
                     BBA Program Directorate
                   </p>
-                  <p className="text-primary font-semibold">Butwal Multiple Campus</p>
+                  <p className="text-primary font-semibold">Butwal Multiple Campus BBA</p>
                 </div>
               </blockquote>
             </div>
