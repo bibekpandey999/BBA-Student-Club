@@ -215,10 +215,10 @@ export default function ClubPage() {
           <div className="absolute bottom-10 right-10 w-96 h-96 bg-amber-100/60 rounded-full blur-[100px] pointer-events-none"></div>
 
           <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto py-12 flex flex-col items-center">
-             <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden shadow-md border-4 border-white mb-6 flex items-center justify-center bg-white">
+             <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden shadow-md border-4 border-white mb-8 flex items-center justify-center bg-white">
                <img src="/bba-logo.jpg" alt="BBA Student Club Logo" className="w-full h-full object-cover" />
              </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-2 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-emerald-600 mb-6 leading-tight">
               BBA STUDENT CLUB
             </h1>
             <p className="text-base sm:text-lg text-gray-700 mb-8 max-w-2xl mx-auto leading-relaxed">
