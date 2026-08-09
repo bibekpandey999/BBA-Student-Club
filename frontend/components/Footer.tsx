@@ -43,8 +43,8 @@ export default function Footer() {
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('club')} className="hover:text-white transition-colors">
-                  BBA Student Club
+                <button onClick={() => scrollToSection('gallery')} className="hover:text-white transition-colors">
+                 Gallery
                 </button>
               </li>
               <li>
