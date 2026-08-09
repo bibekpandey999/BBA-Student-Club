@@ -12,6 +12,7 @@ const Notice = require("./models/notice.js");
 const Result = require('./models/result.js');
 const ChiefMessage = require("./models/messageOfChief.js");
 const DirectorMessage = require("./models/messageOfDirector.js")
+const Professor = require("./models/professor.js");
 const MongoStore = require('connect-mongo').default || require('connect-mongo');
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -659,6 +660,158 @@ app.delete("/api/director-message/:id", async (req, res) => {
         return res.status(500).json({ success: false, message: "Error deleting Director message record." });
     }
 });
+
+
+
+// ==========================================
+// 🎓 PROFESSOR ROUTES
+// ==========================================
+
+// POST Route to Save Professor Details
+app.post("/api/professor", async (req, res) => {
+    try {
+        const formData = req.body;
+
+        const newProfessor = await Professor.create({
+            name: getValue(formData.name, ""),
+            role: getValue(formData.role, ""),
+            description: getValue(formData.description, ""),
+            image: getValue(formData.image, ""),
+            email: getValue(formData.email, ""),
+            socialLinks: {
+                linkedin: getValue(formData.socialLinks?.linkedin, ""),
+                github: getValue(formData.socialLinks?.github, ""),
+                instagram: getValue(formData.socialLinks?.instagram, "")
+            }
+        });
+
+        return res.status(201).json({ 
+            success: true, 
+            message: "Professor record saved successfully!", 
+            data: newProfessor 
+        });
+
+    } catch (error) {
+        console.error("🔴 DATABASE WRITE CRASH:", error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Failed to write Professor data to MongoDB.",
+            error: error.message 
+        });
+    }
+});
+
+// GET Route to fetch all Professors
+app.get("/api/professor", async (req, res) => {
+    console.log("DEBUG: Request received for /api/professor");
+    try {
+        const dbProfessors = await Professor.find({});
+
+        const professors = dbProfessors.map(prof => ({
+            id: prof._id,
+            _id: prof._id,
+            name: prof.name,
+            role: prof.role,
+            description: prof.description,
+            image: prof.image,
+            email: prof.email,
+            socialLinks: prof.socialLinks,
+            createdAt: prof.createdAt || new Date().toISOString()
+        }));
+
+        return res.status(200).json({
+            success: true,
+            count: professors.length,
+            data: professors 
+        });
+    } catch (error) {
+        console.error("🔴 Backend fetch failed:", error);
+        return res.status(500).json({ success: false, message: "Error fetching Professor records." });
+    }
+});
+
+// PUT Route to Update Professor Details by ID
+app.put("/api/professor/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const formData = req.body;
+        console.log(`=== UPDATING PROFESSOR ID: ${id} ===`);
+
+        // Fetch the existing record first so we know the OLD image URL
+        const existingProfessor = await Professor.findById(id);
+        if (!existingProfessor) {
+            return res.status(404).json({ success: false, message: "Professor record not found." });
+        }
+
+        const newImage = getValue(formData.image, "");
+        const oldImage = existingProfessor.image;
+
+        const updatedFields = {
+            name: getValue(formData.name, ""),
+            role: getValue(formData.role, ""),
+            description: getValue(formData.description, ""),
+            image: newImage,
+            email: getValue(formData.email, ""),
+            socialLinks: {
+                linkedin: getValue(formData.socialLinks?.linkedin, ""),
+                github: getValue(formData.socialLinks?.github, ""),
+                instagram: getValue(formData.socialLinks?.instagram, "")
+            }
+        };
+
+        const updatedProfessor = await Professor.findByIdAndUpdate(
+            id,
+            { $set: updatedFields },
+            { new: true, runValidators: true }
+        );
+
+        // If the image actually changed, delete the OLD one from Cloudinary
+        if (oldImage && oldImage !== newImage) {
+            deleteCloudinaryImage(oldImage);
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Professor record updated successfully!",
+            data: updatedProfessor
+        });
+
+    } catch (error) {
+        console.error("🔴 Backend update failed:", error);
+        return res.status(500).json({ 
+            success: false, 
+            message: "Error updating Professor record.",
+            error: error.message 
+        });
+    }
+});
+
+// DELETE Route to Remove a Professor Record by ID
+app.delete("/api/professor/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        console.log(`=== DELETING PROFESSOR ID: ${id} ===`);
+
+        const deletedProfessor = await Professor.findByIdAndDelete(id);
+
+        if (!deletedProfessor) {
+            return res.status(404).json({ success: false, message: "Professor record not found." });
+        }
+
+        // Delete the image from Cloudinary too (fire-and-forget-safe, never throws)
+        await deleteCloudinaryImage(deletedProfessor.image);
+
+        return res.status(200).json({
+            success: true,
+            message: "Professor record deleted successfully!",
+            deletedProfessorId: id
+        });
+    } catch (error) {
+        console.error("🔴 Backend deletion failed:", error);
+        return res.status(500).json({ success: false, message: "Error deleting Professor record." });
+    }
+});
+
 
 
 
