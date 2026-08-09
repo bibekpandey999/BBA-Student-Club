@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, User, ArrowRight, ShieldAlert } from 'lucide-react';
+import { Lock, User, ArrowRight, ShieldAlert, KeyRound } from 'lucide-react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
@@ -40,6 +40,7 @@ const handleLogin = async (e: React.FormEvent) => {
       setLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
@@ -110,6 +111,22 @@ const handleLogin = async (e: React.FormEvent) => {
             {!loading && <ArrowRight size={18} />}
           </button>
         </form>
+
+        {/* Credentials Helper Box */}
+        <div className="mt-6 pt-6 border-t border-gray-100 bg-gray-50/50 p-4 rounded-xl text-xs text-gray-600 space-y-1.5">
+          <div className="flex items-center space-x-1.5 font-semibold text-gray-700 mb-1">
+            <KeyRound size={14} className="text-primary" />
+            <span>Default Admin Credentials:</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-500">Admin ID:</span>
+            <span className="font-mono font-medium text-gray-800 select-all">940349643</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-500">Password:</span>
+            <span className="font-mono font-medium text-gray-800 select-all">bba@4956034</span>
+          </div>
+        </div>
       </div>
     </div>
   );
