@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { LayoutDashboard, Users, MessageSquareText, Calendar, Image as ImageIcon, LogOut, Plus, Trash2, Edit, X, GraduationCap, ChevronLeft, Folder, Bell, Award, Loader2, UserCog, Briefcase, BookUser } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquareText, Calendar, Image as ImageIcon, LogOut, Plus, Trash2, Edit, X, GraduationCap, ChevronLeft, Folder, Bell, Award, Loader2, UserCog, Briefcase, BookUser, Menu } from 'lucide-react';
 
 const CLOUDINARY_UPLOAD_PRESET = 'yqrwxign';
 const CLOUDINARY_CLOUD_NAME = 'blmpiipa';
@@ -33,6 +33,7 @@ export default function AdminDashboard() {
   const [adminId] = useState('Admin User');
   const [authorized, setAuthorized] = useState(false);
   const [activeTab, setActiveTab] = useState<'bod' | 'president' | 'chief' | 'director' | 'professor' | 'events' | 'gallery' | 'alumni' | 'notice' | 'result'>('bod');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // ---------------- BOD State ----------------
   const [bodMembers, setBodMembers] = useState<any[]>([]);
@@ -1272,16 +1273,56 @@ const fetchStorageStatus = async () => {
     : [];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex">
+    <div className="min-h-screen bg-gray-100 flex relative">
+      {/* Mobile Top Bar */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-200 flex items-center justify-between px-4 py-3 shadow-sm">
+        <button
+          onClick={() => setIsSidebarOpen(true)}
+          className="p-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+        >
+          <Menu size={22} />
+        </button>
+        <div className="flex items-center space-x-2">
+          <LayoutDashboard className="text-primary" size={20} />
+          <span className="font-bold text-gray-900">Admin Panel</span>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+        >
+          <LogOut size={20} />
+        </button>
+      </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {isSidebarOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
-        <div className="p-6 border-b border-gray-100 flex items-center space-x-3">
-          <LayoutDashboard className="text-primary" size={24} />
-          <span className="font-bold text-lg text-gray-900">Admin Panel</span>
+      <aside
+        className={`w-64 bg-white border-r border-gray-200 flex flex-col fixed lg:static inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        } lg:translate-x-0`}
+      >
+        <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <LayoutDashboard className="text-primary" size={24} />
+            <span className="font-bold text-lg text-gray-900">Admin Panel</span>
+          </div>
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="lg:hidden p-1 text-gray-400 hover:text-gray-600 rounded-full"
+          >
+            <X size={20} />
+          </button>
         </div>
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           <button
-            onClick={() => setActiveTab('bod')}
+            onClick={() => { setActiveTab('bod'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'bod' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1290,7 +1331,7 @@ const fetchStorageStatus = async () => {
             <span>BOD Management</span>
           </button>
           <button
-            onClick={() => setActiveTab('president')}
+            onClick={() => { setActiveTab('president'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'president' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1299,7 +1340,7 @@ const fetchStorageStatus = async () => {
             <span>President Message</span>
           </button>
           <button
-            onClick={() => setActiveTab('chief')}
+            onClick={() => { setActiveTab('chief'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'chief' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1308,7 +1349,7 @@ const fetchStorageStatus = async () => {
             <span>Chief Message</span>
           </button>
           <button
-            onClick={() => setActiveTab('director')}
+            onClick={() => { setActiveTab('director'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'director' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1317,7 +1358,7 @@ const fetchStorageStatus = async () => {
             <span>Director Message</span>
           </button>
           <button
-            onClick={() => setActiveTab('professor')}
+            onClick={() => { setActiveTab('professor'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'professor' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1326,7 +1367,7 @@ const fetchStorageStatus = async () => {
             <span>Professor Management</span>
           </button>
           <button
-            onClick={() => setActiveTab('events')}
+            onClick={() => { setActiveTab('events'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'events' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1335,7 +1376,7 @@ const fetchStorageStatus = async () => {
             <span>Events Management</span>
           </button>
           <button
-            onClick={() => setActiveTab('gallery')}
+            onClick={() => { setActiveTab('gallery'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'gallery' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1344,7 +1385,7 @@ const fetchStorageStatus = async () => {
             <span>Gallery Management</span>
           </button>
           <button
-            onClick={() => { setActiveTab('alumni'); setSelectedBatch(null); }}
+            onClick={() => { setActiveTab('alumni'); setSelectedBatch(null); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'alumni' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1353,7 +1394,7 @@ const fetchStorageStatus = async () => {
             <span>Alumni Management</span>
           </button>
           <button
-            onClick={() => setActiveTab('notice')}
+            onClick={() => { setActiveTab('notice'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'notice' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1362,7 +1403,7 @@ const fetchStorageStatus = async () => {
             <span>Notice Management</span>
           </button>
           <button
-            onClick={() => setActiveTab('result')}
+            onClick={() => { setActiveTab('result'); setIsSidebarOpen(false); }}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
               activeTab === 'result' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
             }`}
@@ -1383,10 +1424,10 @@ const fetchStorageStatus = async () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-8 overflow-y-auto">
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto pt-20 lg:pt-8 w-full min-w-0">
  
 {storageAlert?.show && (
-  <div className="mb-6 flex items-start justify-between gap-4 rounded-2xl border border-amber-300 bg-amber-50 p-4">
+  <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-start justify-between gap-3 sm:gap-4 rounded-2xl border border-amber-300 bg-amber-50 p-4">
     <div className="flex items-start gap-3">
       <Bell size={20} className="mt-0.5 text-amber-600 flex-shrink-0" />
       <div>
@@ -1403,11 +1444,11 @@ const fetchStorageStatus = async () => {
   </div>
 )}
 
-        <header className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">Welcome back, {adminId}!</h1>
+        <header className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6 sm:mb-8">
+          <h1 className="text-xl sm:text-2xl font-bold text-gray-900 break-words">Welcome back, {adminId}!</h1>
           <button
             onClick={handleLogout}
-            className="flex items-center space-x-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-semibold hover:bg-red-100 cursor-pointer"
+            className="hidden lg:flex items-center space-x-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-semibold hover:bg-red-100 cursor-pointer self-start sm:self-auto"
           >
             <LogOut size={16} />
             <span>Logout</span>
@@ -1416,11 +1457,11 @@ const fetchStorageStatus = async () => {
 
         {activeTab === 'bod' ? (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">Board of Directors (BOD) Members</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Board of Directors (BOD) Members</h2>
               <button
                 onClick={() => openModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Member</span>
@@ -1434,7 +1475,7 @@ const fetchStorageStatus = async () => {
                 <div className="p-8 text-center text-gray-500">No BOD members found. Click "Add Member" to create one.</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[600px] text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <th className="p-4">Member</th>
@@ -1490,11 +1531,11 @@ const fetchStorageStatus = async () => {
           </>
         ) : activeTab === 'president' ? (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">President Message Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">President Message Management</h2>
               <button
                 onClick={() => openPresidentModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Message</span>
@@ -1506,7 +1547,7 @@ const fetchStorageStatus = async () => {
                 <div className="p-8 text-center text-gray-500">No President Message found. Click "Add Message" to create one.</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[600px] text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <th className="p-4">President</th>
@@ -1557,11 +1598,11 @@ const fetchStorageStatus = async () => {
           </>
         ) : activeTab === 'chief' ? (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">Chief Message Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Chief Message Management</h2>
               <button
                 onClick={() => openChiefModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Message</span>
@@ -1573,7 +1614,7 @@ const fetchStorageStatus = async () => {
                 <div className="p-8 text-center text-gray-500">No Chief Message found. Click "Add Message" to create one.</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[600px] text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <th className="p-4">Chief</th>
@@ -1624,11 +1665,11 @@ const fetchStorageStatus = async () => {
           </>
         ) : activeTab === 'director' ? (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">Director Message Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Director Message Management</h2>
               <button
                 onClick={() => openDirectorModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Message</span>
@@ -1640,7 +1681,7 @@ const fetchStorageStatus = async () => {
                 <div className="p-8 text-center text-gray-500">No Director Message found. Click "Add Message" to create one.</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[600px] text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <th className="p-4">Director</th>
@@ -1691,11 +1732,11 @@ const fetchStorageStatus = async () => {
           </>
         ) : activeTab === 'professor' ? (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">Professor Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Professor Management</h2>
               <button
                 onClick={() => openProfessorModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Professor</span>
@@ -1707,7 +1748,7 @@ const fetchStorageStatus = async () => {
                 <div className="p-8 text-center text-gray-500">No professors found. Click "Add Professor" to create one.</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[600px] text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <th className="p-4">Professor</th>
@@ -1763,11 +1804,11 @@ const fetchStorageStatus = async () => {
           </>
         ) : activeTab === 'events' ? (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">Events Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Events Management</h2>
               <button
                 onClick={() => openEventModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Event</span>
@@ -1779,7 +1820,7 @@ const fetchStorageStatus = async () => {
                 <div className="p-8 text-center text-gray-500">No events found. Click "Add Event" to create one.</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[600px] text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <th className="p-4">Event</th>
@@ -1835,11 +1876,11 @@ const fetchStorageStatus = async () => {
           </>
         ) : activeTab === 'gallery' ? (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">Gallery Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Gallery Management</h2>
               <button
                 onClick={() => openGalleryModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Image</span>
@@ -1850,7 +1891,7 @@ const fetchStorageStatus = async () => {
               {displayGalleryImages.length === 0 ? (
                 <div className="p-8 text-center text-gray-500">No images found. Click "Add Image" to create one.</div>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-6">
                   {displayGalleryImages.map((img) => {
                     const imgId = img._id || img.id;
                     return (
@@ -1889,11 +1930,11 @@ const fetchStorageStatus = async () => {
           <>
             {selectedBatch === null ? (
               <>
-                <div className="flex justify-between items-center mb-6">
-                  <h2 className="text-xl font-bold text-gray-800">Alumni Management — Batches</h2>
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-800">Alumni Management — Batches</h2>
                   <button
                     onClick={() => openAlumniModal()}
-                    className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                    className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
                   >
                     <Plus size={18} />
                     <span>Add Alumni</span>
@@ -1904,7 +1945,7 @@ const fetchStorageStatus = async () => {
                   {alumniBatches.length === 0 ? (
                     <div className="p-8 text-center text-gray-500">No alumni found. Click "Add Alumni" to create one.</div>
                   ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 p-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 p-4 sm:p-6">
                       {alumniBatches.map((batch) => (
                         <button
                           key={batch}
@@ -1926,7 +1967,7 @@ const fetchStorageStatus = async () => {
               </>
             ) : (
               <>
-                <div className="flex justify-between items-center mb-6">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
                   <div className="flex items-center space-x-3">
                     <button
                       onClick={() => setSelectedBatch(null)}
@@ -1935,11 +1976,11 @@ const fetchStorageStatus = async () => {
                     >
                       <ChevronLeft size={20} />
                     </button>
-                    <h2 className="text-xl font-bold text-gray-800">Batch {selectedBatch} — Alumni</h2>
+                    <h2 className="text-lg sm:text-xl font-bold text-gray-800">Batch {selectedBatch} — Alumni</h2>
                   </div>
                   <button
                     onClick={() => openAlumniModal()}
-                    className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                    className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
                   >
                     <Plus size={18} />
                     <span>Add Alumni</span>
@@ -1951,7 +1992,7 @@ const fetchStorageStatus = async () => {
                     <div className="p-8 text-center text-gray-500">No alumni found in this batch.</div>
                   ) : (
                     <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
+                      <table className="w-full min-w-[600px] text-left border-collapse">
                         <thead>
                           <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                             <th className="p-4">Alumni</th>
@@ -2009,11 +2050,11 @@ const fetchStorageStatus = async () => {
           </>
         ) : activeTab === 'notice' ? (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">Notice Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Notice Management</h2>
               <button
                 onClick={() => openNoticeModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Notice</span>
@@ -2025,7 +2066,7 @@ const fetchStorageStatus = async () => {
                 <div className="p-8 text-center text-gray-500">No notices found. Click "Add Notice" to create one.</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[600px] text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <th className="p-4">Title</th>
@@ -2078,11 +2119,11 @@ const fetchStorageStatus = async () => {
           </>
         ) : (
           <>
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-gray-800">Result Management</h2>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-800">Result Management</h2>
               <button
                 onClick={() => openResultModal()}
-                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+                className="flex items-center justify-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm w-full sm:w-auto"
               >
                 <Plus size={18} />
                 <span>Add Result</span>
@@ -2094,7 +2135,7 @@ const fetchStorageStatus = async () => {
                 <div className="p-8 text-center text-gray-500">No results found. Click "Add Result" to create one.</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full min-w-[600px] text-left border-collapse">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         <th className="p-4">Result</th>
@@ -2151,8 +2192,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit BOD Modal ==================== */}
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingBod && setIsModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -2240,7 +2281,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div>
                     <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">LinkedIn</label>
                     <input
@@ -2279,7 +2320,7 @@ const fetchStorageStatus = async () => {
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsModalOpen(false)}
@@ -2310,8 +2351,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit President Message Modal ==================== */}
         {isPresidentModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingPresident && setIsPresidentModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -2373,7 +2414,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsPresidentModalOpen(false)}
@@ -2404,8 +2445,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit Chief Message Modal ==================== */}
         {isChiefModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingChief && setIsChiefModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -2467,7 +2508,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsChiefModalOpen(false)}
@@ -2498,8 +2539,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit Director Message Modal ==================== */}
         {isDirectorModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingDirector && setIsDirectorModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -2561,7 +2602,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsDirectorModalOpen(false)}
@@ -2592,8 +2633,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit Professor Modal ==================== */}
         {isProfessorModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingProfessor && setIsProfessorModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -2681,7 +2722,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div>
                     <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">LinkedIn</label>
                     <input
@@ -2720,7 +2761,7 @@ const fetchStorageStatus = async () => {
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsProfessorModalOpen(false)}
@@ -2751,8 +2792,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit Event Modal ==================== */}
         {isEventModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingEvent && setIsEventModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -2839,7 +2880,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsEventModalOpen(false)}
@@ -2870,8 +2911,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit Gallery Modal ==================== */}
         {isGalleryModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingGallery && setIsGalleryModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -2911,7 +2952,7 @@ const fetchStorageStatus = async () => {
                   </div>
                 )}
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsGalleryModalOpen(false)}
@@ -2942,8 +2983,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit Alumni Modal ==================== */}
         {isAlumniModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingAlumni && setIsAlumniModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -3045,7 +3086,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div>
                     <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">LinkedIn</label>
                     <input
@@ -3084,7 +3125,7 @@ const fetchStorageStatus = async () => {
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsAlumniModalOpen(false)}
@@ -3115,8 +3156,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit Notice Modal ==================== */}
         {isNoticeModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingNotice && setIsNoticeModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -3190,7 +3231,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsNoticeModalOpen(false)}
@@ -3221,8 +3262,8 @@ const fetchStorageStatus = async () => {
 
         {/* ==================== Create / Edit Result Modal ==================== */}
         {isResultModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-3 sm:px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl p-4 sm:p-6 relative">
               <button
                 onClick={() => !isSubmittingResult && setIsResultModalOpen(false)}
                 className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
@@ -3295,7 +3336,7 @@ const fetchStorageStatus = async () => {
                   />
                 </div>
 
-                <div className="flex justify-end space-x-3 pt-4">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 sm:gap-3 pt-4">
                   <button
                     type="button"
                     onClick={() => setIsResultModalOpen(false)}
