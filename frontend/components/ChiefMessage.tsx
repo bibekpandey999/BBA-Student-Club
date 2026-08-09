@@ -80,25 +80,6 @@ export default function ChiefMessage() {
             <p className="text-lg text-red-500">No chief message found in the database.</p>
           </div>
         )}
-
-        {/* Values section - Kept consistent with the style */}
-        <div className="mt-16 grid md:grid-cols-3 gap-8">
-          <div className="text-center p-6 bg-background rounded-lg border border-border hover:shadow-md transition-shadow">
-            <div className="text-4xl mb-3">🎓</div>
-            <h3 className="font-bold text-foreground mb-2">Academic Excellence</h3>
-            <p className="text-sm text-foreground/70">Fostering high standards in teaching and student learning</p>
-          </div>
-          <div className="text-center p-6 bg-background rounded-lg border border-border hover:shadow-md transition-shadow">
-            <div className="text-4xl mb-3">💡</div>
-            <h3 className="font-bold text-foreground mb-2">Leadership</h3>
-            <p className="text-sm text-foreground/70">Guiding students toward impactful leadership roles</p>
-          </div>
-          <div className="text-center p-6 bg-background rounded-lg border border-border hover:shadow-md transition-shadow">
-            <div className="text-4xl mb-3">🌟</div>
-            <h3 className="font-bold text-foreground mb-2">Vision & Integrity</h3>
-            <p className="text-sm text-foreground/70">Building a disciplined and progressive educational environment</p>
-          </div>
-        </div>
       </div>
     </section>
   );

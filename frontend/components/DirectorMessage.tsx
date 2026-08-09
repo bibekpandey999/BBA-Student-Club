@@ -81,24 +81,7 @@ export default function DirectorMessage() {
           </div>
         )}
 
-        {/* Values section - Kept consistent with the style */}
-        <div className="mt-16 grid md:grid-cols-3 gap-8">
-          <div className="text-center p-6 bg-background rounded-lg border border-border hover:shadow-md transition-shadow">
-            <div className="text-4xl mb-3">📈</div>
-            <h3 className="font-bold text-foreground mb-2">Strategic Vision</h3>
-            <p className="text-sm text-foreground/70">Shaping management programs to meet modern industry demands</p>
-          </div>
-          <div className="text-center p-6 bg-background rounded-lg border border-border hover:shadow-md transition-shadow">
-            <div className="text-4xl mb-3">💼</div>
-            <h3 className="font-bold text-foreground mb-2">Corporate Readiness</h3>
-            <p className="text-sm text-foreground/70">Bridging the gap between academic theory and real-world business practice</p>
-          </div>
-          <div className="text-center p-6 bg-background rounded-lg border border-border hover:shadow-md transition-shadow">
-            <div className="text-4xl mb-3">🎯</div>
-            <h3 className="font-bold text-foreground mb-2">Excellence</h3>
-            <p className="text-sm text-foreground/70">Ensuring high quality standards across all student initiatives</p>
-          </div>
-        </div>
+        
       </div>
     </section>
   );
