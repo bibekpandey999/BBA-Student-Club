@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { LayoutDashboard, Users, MessageSquareText, Calendar, Image as ImageIcon, LogOut, Plus, Trash2, Edit, X, GraduationCap, ChevronLeft, Folder, Bell, Award, Loader2 } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquareText, Calendar, Image as ImageIcon, LogOut, Plus, Trash2, Edit, X, GraduationCap, ChevronLeft, Folder, Bell, Award, Loader2, UserCog, Briefcase } from 'lucide-react';
 
 const CLOUDINARY_UPLOAD_PRESET = 'yqrwxign';
 const CLOUDINARY_CLOUD_NAME = 'blmpiipa';
@@ -32,7 +32,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [adminId] = useState('Admin User');
   const [authorized, setAuthorized] = useState(false);
-  const [activeTab, setActiveTab] = useState<'bod' | 'president' | 'events' | 'gallery' | 'alumni' | 'notice' | 'result'>('bod');
+  const [activeTab, setActiveTab] = useState<'bod' | 'president' | 'chief' | 'director' | 'events' | 'gallery' | 'alumni' | 'notice' | 'result'>('bod');
 
   // ---------------- BOD State ----------------
   const [bodMembers, setBodMembers] = useState<any[]>([]);
@@ -86,6 +86,42 @@ const fetchStorageStatus = async () => {
   const [isSubmittingPresident, setIsSubmittingPresident] = useState(false);
 
   const [presidentFormData, setPresidentFormData] = useState<{
+    name: string;
+    description: string;
+    image: string;
+    imageFile?: File | null;
+  }>({
+    name: '',
+    description: '',
+    image: '',
+    imageFile: null,
+  });
+
+  // ---------------- Chief Message State ----------------
+  const [chiefMessages, setChiefMessages] = useState<any[]>([]);
+  const [isChiefModalOpen, setIsChiefModalOpen] = useState(false);
+  const [editingChiefId, setEditingChiefId] = useState<string | null>(null);
+  const [isSubmittingChief, setIsSubmittingChief] = useState(false);
+
+  const [chiefFormData, setChiefFormData] = useState<{
+    name: string;
+    description: string;
+    image: string;
+    imageFile?: File | null;
+  }>({
+    name: '',
+    description: '',
+    image: '',
+    imageFile: null,
+  });
+
+  // ---------------- Director Message State ----------------
+  const [directorMessages, setDirectorMessages] = useState<any[]>([]);
+  const [isDirectorModalOpen, setIsDirectorModalOpen] = useState(false);
+  const [editingDirectorId, setEditingDirectorId] = useState<string | null>(null);
+  const [isSubmittingDirector, setIsSubmittingDirector] = useState(false);
+
+  const [directorFormData, setDirectorFormData] = useState<{
     name: string;
     description: string;
     image: string;
@@ -208,6 +244,8 @@ const fetchStorageStatus = async () => {
     setAuthorized(true);
     fetchBodMembers();
     fetchPresidentMessages();
+    fetchChiefMessages();
+    fetchDirectorMessages();
     fetchEvents();
     fetchGalleryImages();
     fetchAlumni();
@@ -238,6 +276,26 @@ const fetchStorageStatus = async () => {
       if (json.success) setPresidentMessages(json.data);
     } catch (err) {
       console.error('Failed to fetch president messages:', err);
+    }
+  };
+
+  const fetchChiefMessages = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/chief-message`);
+      const json = await res.json();
+      if (json.success) setChiefMessages(json.data);
+    } catch (err) {
+      console.error('Failed to fetch chief messages:', err);
+    }
+  };
+
+  const fetchDirectorMessages = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/director-message`);
+      const json = await res.json();
+      if (json.success) setDirectorMessages(json.data);
+    } catch (err) {
+      console.error('Failed to fetch director messages:', err);
     }
   };
 
@@ -305,6 +363,16 @@ const fetchStorageStatus = async () => {
   const handlePresidentChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setPresidentFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleChiefChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setChiefFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleDirectorChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setDirectorFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleEventChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -383,6 +451,38 @@ const fetchStorageStatus = async () => {
       setPresidentFormData({ name: '', description: '', image: '', imageFile: null });
     }
     setIsPresidentModalOpen(true);
+  };
+
+  const openChiefModal = (msg: any = null) => {
+    if (msg) {
+      setEditingChiefId(msg._id || msg.id);
+      setChiefFormData({
+        name: msg.name || '',
+        description: msg.description || '',
+        image: msg.image || '',
+        imageFile: null,
+      });
+    } else {
+      setEditingChiefId(null);
+      setChiefFormData({ name: '', description: '', image: '', imageFile: null });
+    }
+    setIsChiefModalOpen(true);
+  };
+
+  const openDirectorModal = (msg: any = null) => {
+    if (msg) {
+      setEditingDirectorId(msg._id || msg.id);
+      setDirectorFormData({
+        name: msg.name || '',
+        description: msg.description || '',
+        image: msg.image || '',
+        imageFile: null,
+      });
+    } else {
+      setEditingDirectorId(null);
+      setDirectorFormData({ name: '', description: '', image: '', imageFile: null });
+    }
+    setIsDirectorModalOpen(true);
   };
 
   const openEventModal = (event: any = null) => {
@@ -567,6 +667,92 @@ const fetchStorageStatus = async () => {
       alert(err.message || 'Something went wrong connecting to the server.');
     } finally {
       setIsSubmittingPresident(false);
+    }
+  };
+
+  // Submit Chief Message Form
+  const handleChiefSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmittingChief) return;
+    setIsSubmittingChief(true);
+
+    try {
+      let imageUrl = chiefFormData.image || '';
+
+      if (chiefFormData.imageFile) {
+        imageUrl = await uploadToCloudinary(chiefFormData.imageFile);
+      }
+
+      const url = editingChiefId
+        ? `${API_BASE}/chief-message/${editingChiefId}`
+        : `${API_BASE}/chief-message`;
+      const method = editingChiefId ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: chiefFormData.name,
+          description: chiefFormData.description,
+          image: imageUrl,
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success) {
+        await fetchChiefMessages();
+        setIsChiefModalOpen(false);
+      } else {
+        alert(json.message || 'Operation failed');
+      }
+    } catch (err: any) {
+      console.error('Error saving Chief Message:', err);
+      alert(err.message || 'Something went wrong connecting to the server.');
+    } finally {
+      setIsSubmittingChief(false);
+    }
+  };
+
+  // Submit Director Message Form
+  const handleDirectorSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmittingDirector) return;
+    setIsSubmittingDirector(true);
+
+    try {
+      let imageUrl = directorFormData.image || '';
+
+      if (directorFormData.imageFile) {
+        imageUrl = await uploadToCloudinary(directorFormData.imageFile);
+      }
+
+      const url = editingDirectorId
+        ? `${API_BASE}/director-message/${editingDirectorId}`
+        : `${API_BASE}/director-message`;
+      const method = editingDirectorId ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: directorFormData.name,
+          description: directorFormData.description,
+          image: imageUrl,
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success) {
+        await fetchDirectorMessages();
+        setIsDirectorModalOpen(false);
+      } else {
+        alert(json.message || 'Operation failed');
+      }
+    } catch (err: any) {
+      console.error('Error saving Director Message:', err);
+      alert(err.message || 'Something went wrong connecting to the server.');
+    } finally {
+      setIsSubmittingDirector(false);
     }
   };
 
@@ -817,6 +1003,36 @@ const fetchStorageStatus = async () => {
     }
   };
 
+  const handleChiefDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this message?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/chief-message/${id}`, { method: 'DELETE' });
+      const json = await res.json();
+      if (json.success) {
+        setChiefMessages(prev => prev.filter(m => (m._id || m.id) !== id));
+      } else {
+        alert(json.message || 'Delete failed');
+      }
+    } catch (err) {
+      console.error('Error deleting Chief message:', err);
+    }
+  };
+
+  const handleDirectorDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this message?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/director-message/${id}`, { method: 'DELETE' });
+      const json = await res.json();
+      if (json.success) {
+        setDirectorMessages(prev => prev.filter(m => (m._id || m.id) !== id));
+      } else {
+        alert(json.message || 'Delete failed');
+      }
+    } catch (err) {
+      console.error('Error deleting Director message:', err);
+    }
+  };
+
   const handleEventDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this event?')) return;
     try {
@@ -947,6 +1163,24 @@ const fetchStorageStatus = async () => {
           >
             <MessageSquareText size={18} />
             <span>President Message</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('chief')}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'chief' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            <UserCog size={18} />
+            <span>Chief Message</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('director')}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'director' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            <Briefcase size={18} />
+            <span>Director Message</span>
           </button>
           <button
             onClick={() => setActiveTab('events')}
@@ -1163,6 +1397,140 @@ const fetchStorageStatus = async () => {
                               </button>
                               <button
                                 onClick={() => handlePresidentDelete(msgId)}
+                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors inline-flex items-center"
+                                title="Delete"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </>
+        ) : activeTab === 'chief' ? (
+          <>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Chief Message Management</h2>
+              <button
+                onClick={() => openChiefModal()}
+                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+              >
+                <Plus size={18} />
+                <span>Add Message</span>
+              </button>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+              {chiefMessages.length === 0 ? (
+                <div className="p-8 text-center text-gray-500">No Chief Message found. Click "Add Message" to create one.</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="p-4">Chief</th>
+                        <th className="p-4">Description</th>
+                        <th className="p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 text-sm">
+                      {chiefMessages.map((msg) => {
+                        const msgId = msg._id || msg.id;
+                        return (
+                          <tr key={msgId} className="hover:bg-gray-50 transition-colors">
+                            <td className="p-4 flex items-center space-x-3">
+                              <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+                                {msg.image ? (
+                                  <img src={msg.image} alt={msg.name} className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-gray-500">🧑‍💼</div>
+                                )}
+                              </div>
+                              <p className="font-semibold text-gray-900">{msg.name}</p>
+                            </td>
+                            <td className="p-4 text-gray-600 truncate max-w-md">{msg.description}</td>
+                            <td className="p-4 text-right space-x-2">
+                              <button
+                                onClick={() => openChiefModal(msg)}
+                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors inline-flex items-center"
+                                title="Edit"
+                              >
+                                <Edit size={16} />
+                              </button>
+                              <button
+                                onClick={() => handleChiefDelete(msgId)}
+                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors inline-flex items-center"
+                                title="Delete"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </>
+        ) : activeTab === 'director' ? (
+          <>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Director Message Management</h2>
+              <button
+                onClick={() => openDirectorModal()}
+                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+              >
+                <Plus size={18} />
+                <span>Add Message</span>
+              </button>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+              {directorMessages.length === 0 ? (
+                <div className="p-8 text-center text-gray-500">No Director Message found. Click "Add Message" to create one.</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="p-4">Director</th>
+                        <th className="p-4">Description</th>
+                        <th className="p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 text-sm">
+                      {directorMessages.map((msg) => {
+                        const msgId = msg._id || msg.id;
+                        return (
+                          <tr key={msgId} className="hover:bg-gray-50 transition-colors">
+                            <td className="p-4 flex items-center space-x-3">
+                              <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+                                {msg.image ? (
+                                  <img src={msg.image} alt={msg.name} className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-gray-500">🧑‍💼</div>
+                                )}
+                              </div>
+                              <p className="font-semibold text-gray-900">{msg.name}</p>
+                            </td>
+                            <td className="p-4 text-gray-600 truncate max-w-md">{msg.description}</td>
+                            <td className="p-4 text-right space-x-2">
+                              <button
+                                onClick={() => openDirectorModal(msg)}
+                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors inline-flex items-center"
+                                title="Edit"
+                              >
+                                <Edit size={16} />
+                              </button>
+                              <button
+                                onClick={() => handleDirectorDelete(msgId)}
                                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors inline-flex items-center"
                                 title="Delete"
                               >
@@ -1811,6 +2179,194 @@ const fetchStorageStatus = async () => {
                       </>
                     ) : (
                       <span>{editingPresidentId ? 'Update Message' : 'Save Message'}</span>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ==================== Create / Edit Chief Message Modal ==================== */}
+        {isChiefModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+              <button
+                onClick={() => !isSubmittingChief && setIsChiefModalOpen(false)}
+                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
+                disabled={isSubmittingChief}
+              >
+                <X size={18} />
+              </button>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                {editingChiefId ? 'Edit Chief Message' : 'Add Chief Message'}
+              </h3>
+
+              <form onSubmit={handleChiefSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Chief Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={chiefFormData.name}
+                    onChange={handleChiefChange}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="Full Name"
+                    disabled={isSubmittingChief}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Chief Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setChiefFormData(prev => ({ ...prev, imageFile: e.target.files![0] }));
+                      }
+                    }}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                    disabled={isSubmittingChief}
+                  />
+                  {chiefFormData.image && !chiefFormData.imageFile && (
+                    <div className="mt-2 h-20 w-20 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                      <img src={chiefFormData.image} alt="Current" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Description / Message</label>
+                  <textarea
+                    name="description"
+                    rows={5}
+                    required
+                    value={chiefFormData.description}
+                    onChange={handleChiefChange}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="Enter chief's message..."
+                    disabled={isSubmittingChief}
+                  />
+                </div>
+
+                <div className="flex justify-end space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsChiefModalOpen(false)}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isSubmittingChief}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center gap-2 min-w-[120px] justify-center"
+                    disabled={isSubmittingChief}
+                  >
+                    {isSubmittingChief ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>{editingChiefId ? 'Updating...' : 'Saving...'}</span>
+                      </>
+                    ) : (
+                      <span>{editingChiefId ? 'Update Message' : 'Save Message'}</span>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ==================== Create / Edit Director Message Modal ==================== */}
+        {isDirectorModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+              <button
+                onClick={() => !isSubmittingDirector && setIsDirectorModalOpen(false)}
+                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
+                disabled={isSubmittingDirector}
+              >
+                <X size={18} />
+              </button>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                {editingDirectorId ? 'Edit Director Message' : 'Add Director Message'}
+              </h3>
+
+              <form onSubmit={handleDirectorSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Director Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={directorFormData.name}
+                    onChange={handleDirectorChange}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="Full Name"
+                    disabled={isSubmittingDirector}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Director Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setDirectorFormData(prev => ({ ...prev, imageFile: e.target.files![0] }));
+                      }
+                    }}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                    disabled={isSubmittingDirector}
+                  />
+                  {directorFormData.image && !directorFormData.imageFile && (
+                    <div className="mt-2 h-20 w-20 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                      <img src={directorFormData.image} alt="Current" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Description / Message</label>
+                  <textarea
+                    name="description"
+                    rows={5}
+                    required
+                    value={directorFormData.description}
+                    onChange={handleDirectorChange}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="Enter director's message..."
+                    disabled={isSubmittingDirector}
+                  />
+                </div>
+
+                <div className="flex justify-end space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsDirectorModalOpen(false)}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isSubmittingDirector}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center gap-2 min-w-[120px] justify-center"
+                    disabled={isSubmittingDirector}
+                  >
+                    {isSubmittingDirector ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>{editingDirectorId ? 'Updating...' : 'Saving...'}</span>
+                      </>
+                    ) : (
+                      <span>{editingDirectorId ? 'Update Message' : 'Save Message'}</span>
                     )}
                   </button>
                 </div>
