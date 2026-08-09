@@ -11,6 +11,7 @@ const Alumni = require("./models/alumni.js");
 const Notice = require("./models/notice.js");
 const Result = require('./models/result.js');
 const ChiefMessage = require("./models/messageOfChief.js");
+const DirectorMessage = require("./models/messageOfDirector.js")
 const MongoStore = require('connect-mongo').default || require('connect-mongo');
 const mongoose = require('mongoose');
 const multer = require('multer');
