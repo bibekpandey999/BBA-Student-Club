@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { LayoutDashboard, Users, MessageSquareText, Calendar, Image as ImageIcon, LogOut, Plus, Trash2, Edit, X, GraduationCap, ChevronLeft, Folder, Bell, Award, Loader2, UserCog, Briefcase } from 'lucide-react';
+import { LayoutDashboard, Users, MessageSquareText, Calendar, Image as ImageIcon, LogOut, Plus, Trash2, Edit, X, GraduationCap, ChevronLeft, Folder, Bell, Award, Loader2, UserCog, Briefcase, BookUser } from 'lucide-react';
 
 const CLOUDINARY_UPLOAD_PRESET = 'yqrwxign';
 const CLOUDINARY_CLOUD_NAME = 'blmpiipa';
@@ -32,7 +32,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [adminId] = useState('Admin User');
   const [authorized, setAuthorized] = useState(false);
-  const [activeTab, setActiveTab] = useState<'bod' | 'president' | 'chief' | 'director' | 'events' | 'gallery' | 'alumni' | 'notice' | 'result'>('bod');
+  const [activeTab, setActiveTab] = useState<'bod' | 'president' | 'chief' | 'director' | 'professor' | 'events' | 'gallery' | 'alumni' | 'notice' | 'result'>('bod');
 
   // ---------------- BOD State ----------------
   const [bodMembers, setBodMembers] = useState<any[]>([]);
@@ -131,6 +131,30 @@ const fetchStorageStatus = async () => {
     description: '',
     image: '',
     imageFile: null,
+  });
+
+  // ---------------- Professor State ----------------
+  const [professors, setProfessors] = useState<any[]>([]);
+  const [isProfessorModalOpen, setIsProfessorModalOpen] = useState(false);
+  const [editingProfessorId, setEditingProfessorId] = useState<string | null>(null);
+  const [isSubmittingProfessor, setIsSubmittingProfessor] = useState(false);
+
+  const [professorFormData, setProfessorFormData] = useState<{
+    name: string;
+    role: string;
+    description: string;
+    image: string;
+    imageFile?: File | null;
+    email: string;
+    socialLinks: { linkedin: string; github: string; instagram: string };
+  }>({
+    name: '',
+    role: '',
+    description: '',
+    image: '',
+    imageFile: null,
+    email: '',
+    socialLinks: { linkedin: '', github: '', instagram: '' },
   });
 
   // ---------------- Events State ----------------
@@ -246,6 +270,7 @@ const fetchStorageStatus = async () => {
     fetchPresidentMessages();
     fetchChiefMessages();
     fetchDirectorMessages();
+    fetchProfessors();
     fetchEvents();
     fetchGalleryImages();
     fetchAlumni();
@@ -296,6 +321,16 @@ const fetchStorageStatus = async () => {
       if (json.success) setDirectorMessages(json.data);
     } catch (err) {
       console.error('Failed to fetch director messages:', err);
+    }
+  };
+
+  const fetchProfessors = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/professor`);
+      const json = await res.json();
+      if (json.success) setProfessors(json.data);
+    } catch (err) {
+      console.error('Failed to fetch professors:', err);
     }
   };
 
@@ -373,6 +408,15 @@ const fetchStorageStatus = async () => {
   const handleDirectorChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setDirectorFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleProfessorChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    if (['linkedin', 'github', 'instagram'].includes(name)) {
+      setProfessorFormData(prev => ({ ...prev, socialLinks: { ...prev.socialLinks, [name]: value } }));
+    } else {
+      setProfessorFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleEventChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -483,6 +527,37 @@ const fetchStorageStatus = async () => {
       setDirectorFormData({ name: '', description: '', image: '', imageFile: null });
     }
     setIsDirectorModalOpen(true);
+  };
+
+  const openProfessorModal = (professor: any = null) => {
+    if (professor) {
+      setEditingProfessorId(professor._id || professor.id);
+      setProfessorFormData({
+        name: professor.name || '',
+        role: professor.role || '',
+        description: professor.description || '',
+        image: professor.image || '',
+        imageFile: null,
+        email: professor.email || '',
+        socialLinks: {
+          linkedin: professor.socialLinks?.linkedin || '',
+          github: professor.socialLinks?.github || '',
+          instagram: professor.socialLinks?.instagram || '',
+        },
+      });
+    } else {
+      setEditingProfessorId(null);
+      setProfessorFormData({
+        name: '',
+        role: '',
+        description: '',
+        image: '',
+        imageFile: null,
+        email: '',
+        socialLinks: { linkedin: '', github: '', instagram: '' },
+      });
+    }
+    setIsProfessorModalOpen(true);
   };
 
   const openEventModal = (event: any = null) => {
@@ -753,6 +828,50 @@ const fetchStorageStatus = async () => {
       alert(err.message || 'Something went wrong connecting to the server.');
     } finally {
       setIsSubmittingDirector(false);
+    }
+  };
+
+  // Submit Professor Form
+  const handleProfessorSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isSubmittingProfessor) return;
+    setIsSubmittingProfessor(true);
+
+    try {
+      let imageUrl = professorFormData.image || '';
+
+      if (professorFormData.imageFile) {
+        imageUrl = await uploadToCloudinary(professorFormData.imageFile);
+      }
+
+      const url = editingProfessorId ? `${API_BASE}/professor/${editingProfessorId}` : `${API_BASE}/professor`;
+      const method = editingProfessorId ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: professorFormData.name,
+          role: professorFormData.role,
+          description: professorFormData.description,
+          email: professorFormData.email,
+          image: imageUrl,
+          socialLinks: professorFormData.socialLinks,
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success) {
+        await fetchProfessors();
+        setIsProfessorModalOpen(false);
+      } else {
+        alert(json.message || 'Operation failed');
+      }
+    } catch (err: any) {
+      console.error('Error saving Professor record:', err);
+      alert(err.message || 'Something went wrong connecting to the server.');
+    } finally {
+      setIsSubmittingProfessor(false);
     }
   };
 
@@ -1033,6 +1152,21 @@ const fetchStorageStatus = async () => {
     }
   };
 
+  const handleProfessorDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this professor?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/professor/${id}`, { method: 'DELETE' });
+      const json = await res.json();
+      if (json.success) {
+        setProfessors(prev => prev.filter(p => (p._id || p.id) !== id));
+      } else {
+        alert(json.message || 'Delete failed');
+      }
+    } catch (err) {
+      console.error('Error deleting professor record:', err);
+    }
+  };
+
   const handleEventDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this event?')) return;
     try {
@@ -1181,6 +1315,15 @@ const fetchStorageStatus = async () => {
           >
             <Briefcase size={18} />
             <span>Director Message</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('professor')}
+            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'professor' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50'
+            }`}
+          >
+            <BookUser size={18} />
+            <span>Professor Management</span>
           </button>
           <button
             onClick={() => setActiveTab('events')}
@@ -1531,6 +1674,78 @@ const fetchStorageStatus = async () => {
                               </button>
                               <button
                                 onClick={() => handleDirectorDelete(msgId)}
+                                className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors inline-flex items-center"
+                                title="Delete"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </>
+        ) : activeTab === 'professor' ? (
+          <>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-gray-800">Professor Management</h2>
+              <button
+                onClick={() => openProfessorModal()}
+                className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-emerald-700 transition-colors shadow-sm"
+              >
+                <Plus size={18} />
+                <span>Add Professor</span>
+              </button>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+              {professors.length === 0 ? (
+                <div className="p-8 text-center text-gray-500">No professors found. Click "Add Professor" to create one.</div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-gray-50 border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                        <th className="p-4">Professor</th>
+                        <th className="p-4">Role</th>
+                        <th className="p-4">Email</th>
+                        <th className="p-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200 text-sm">
+                      {professors.map((professor) => {
+                        const professorId = professor._id || professor.id;
+                        return (
+                          <tr key={professorId} className="hover:bg-gray-50 transition-colors">
+                            <td className="p-4 flex items-center space-x-3">
+                              <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
+                                {professor.image ? (
+                                  <img src={professor.image} alt={professor.name} className="w-full h-full object-cover" />
+                                ) : (
+                                  <div className="w-full h-full flex items-center justify-center text-gray-500">🎓</div>
+                                )}
+                              </div>
+                              <div>
+                                <p className="font-semibold text-gray-900">{professor.name}</p>
+                                <p className="text-xs text-gray-500 truncate max-w-xs">{professor.description}</p>
+                              </div>
+                            </td>
+                            <td className="p-4 text-gray-700 font-medium">{professor.role}</td>
+                            <td className="p-4 text-gray-600">{professor.email || 'N/A'}</td>
+                            <td className="p-4 text-right space-x-2">
+                              <button
+                                onClick={() => openProfessorModal(professor)}
+                                className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors inline-flex items-center"
+                                title="Edit"
+                              >
+                                <Edit size={16} />
+                              </button>
+                              <button
+                                onClick={() => handleProfessorDelete(professorId)}
                                 className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors inline-flex items-center"
                                 title="Delete"
                               >
@@ -2367,6 +2582,165 @@ const fetchStorageStatus = async () => {
                       </>
                     ) : (
                       <span>{editingDirectorId ? 'Update Message' : 'Save Message'}</span>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* ==================== Create / Edit Professor Modal ==================== */}
+        {isProfessorModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+            <div className="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
+              <button
+                onClick={() => !isSubmittingProfessor && setIsProfessorModalOpen(false)}
+                className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 rounded-full bg-gray-100"
+                disabled={isSubmittingProfessor}
+              >
+                <X size={18} />
+              </button>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                {editingProfessorId ? 'Edit Professor' : 'Add New Professor'}
+              </h3>
+
+              <form onSubmit={handleProfessorSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={professorFormData.name}
+                    onChange={handleProfessorChange}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="Full Name"
+                    disabled={isSubmittingProfessor}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Role / Position</label>
+                  <input
+                    type="text"
+                    name="role"
+                    required
+                    value={professorFormData.role}
+                    onChange={handleProfessorChange}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="e.g. Assistant Professor"
+                    disabled={isSubmittingProfessor}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={professorFormData.email}
+                    onChange={handleProfessorChange}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="Email Address"
+                    disabled={isSubmittingProfessor}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Professor Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        setProfessorFormData(prev => ({ ...prev, imageFile: e.target.files![0] }));
+                      }
+                    }}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                    disabled={isSubmittingProfessor}
+                  />
+                  {professorFormData.image && !professorFormData.imageFile && (
+                    <div className="mt-2 h-20 w-20 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                      <img src={professorFormData.image} alt="Current" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Description</label>
+                  <textarea
+                    name="description"
+                    rows={3}
+                    value={professorFormData.description}
+                    onChange={handleProfessorChange}
+                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+                    placeholder="Short bio or description..."
+                    disabled={isSubmittingProfessor}
+                  />
+                </div>
+
+                <div className="grid grid-cols-3 gap-2">
+                  <div>
+                    <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">LinkedIn</label>
+                    <input
+                      type="text"
+                      name="linkedin"
+                      value={professorFormData.socialLinks.linkedin}
+                      onChange={handleProfessorChange}
+                      className="w-full px-2 py-2 border border-gray-200 rounded-xl text-xs"
+                      placeholder="URL"
+                      disabled={isSubmittingProfessor}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">GitHub</label>
+                    <input
+                      type="text"
+                      name="github"
+                      value={professorFormData.socialLinks.github}
+                      onChange={handleProfessorChange}
+                      className="w-full px-2 py-2 border border-gray-200 rounded-xl text-xs"
+                      placeholder="URL"
+                      disabled={isSubmittingProfessor}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold uppercase text-gray-600 mb-1">Instagram</label>
+                    <input
+                      type="text"
+                      name="instagram"
+                      value={professorFormData.socialLinks.instagram}
+                      onChange={handleProfessorChange}
+                      className="w-full px-2 py-2 border border-gray-200 rounded-xl text-xs"
+                      placeholder="URL"
+                      disabled={isSubmittingProfessor}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsProfessorModalOpen(false)}
+                    className="px-4 py-2 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={isSubmittingProfessor}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center gap-2 min-w-[120px] justify-center"
+                    disabled={isSubmittingProfessor}
+                  >
+                    {isSubmittingProfessor ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>{editingProfessorId ? 'Updating...' : 'Saving...'}</span>
+                      </>
+                    ) : (
+                      <span>{editingProfessorId ? 'Update Professor' : 'Save Professor'}</span>
                     )}
                   </button>
                 </div>
