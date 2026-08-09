@@ -34,10 +34,10 @@ export default function Professors() {
     <section id="professors" className="py-20 bg-background px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Our Professors & Faculty</h2>
+          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Our Professors At Butwal Multiple Campus BBA</h2>
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
           <p className="text-lg text-foreground/70 mt-4">
-            Meet the esteemed faculty members guiding BBA at Butwal Multiple Campus
+            Meet our expert faculty dedicated to shaping future business leaders.
           </p>
         </div>
 
