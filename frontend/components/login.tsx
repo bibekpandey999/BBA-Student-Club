@@ -43,20 +43,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 relative">
-      {/* Back Button */}
-      <div className="absolute top-6 left-6 sm:top-8 sm:left-8">
-        <Link
-          href="/"
-          className="inline-flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-primary bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-200 transition-all hover:shadow"
-        >
-          <ArrowLeft size={16} />
-          <span>Back to Home</span>
-        </Link>
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100 relative space-y-6">
+        {/* Back Button inside the login card at the top left */}
+        <div>
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-1.5 text-xs font-medium text-gray-600 hover:text-primary bg-gray-50 hover:bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 transition-all"
+          >
+            <ArrowLeft size={14} />
+            <span>Back</span>
+          </Link>
+        </div>
 
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl border border-gray-100 mt-12 sm:mt-0">
-        <div className="text-center">
+        <div className="text-center -mt-2">
           <div className="mx-auto h-12 w-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center font-bold text-xl mb-3">
             BBA
           </div>
@@ -75,7 +75,7 @@ export default function LoginPage() {
           </div>
         )}
 
-        <form className="mt-8 space-y-5" onSubmit={handleLogin}>
+        <form className="space-y-5" onSubmit={handleLogin}>
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-gray-600 mb-1.5">
               Admin ID
@@ -125,7 +125,7 @@ export default function LoginPage() {
         </form>
 
         {/* Credentials Helper Box */}
-        <div className="mt-6 pt-6 border-t border-gray-100 bg-gray-50/50 p-4 rounded-xl text-xs text-gray-600 space-y-1.5">
+        <div className="pt-4 border-t border-gray-100 bg-gray-50/50 p-4 rounded-xl text-xs text-gray-600 space-y-1.5">
           <div className="flex items-center space-x-1.5 font-semibold text-gray-700 mb-1">
             <KeyRound size={14} className="text-primary" />
             <span>Default Admin Credentials:</span>
