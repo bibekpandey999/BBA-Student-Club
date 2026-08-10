@@ -52,7 +52,7 @@ export default function LoginPage() {
             className="inline-flex items-center space-x-1.5 text-xs font-medium text-gray-600 hover:text-primary bg-gray-50 hover:bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 transition-all"
           >
             <ArrowLeft size={14} />
-            <span>Back</span>
+            <span>Back to Home</span>
           </Link>
         </div>
 
