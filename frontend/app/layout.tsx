@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'BBA BUMC',
   description: 'Welcome to the BBA Student Club—a premier community dedicated to empowering future business leaders through professional growth, impactful networking, and leadership excellence.',
   icons: {
-    icon: '/bba-logo.jpg', 
+    icon: '/Butwal-Multiple-Campus.jpg', 
   },
 }
 
