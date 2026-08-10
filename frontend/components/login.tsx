@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Lock, User, ArrowRight, ShieldAlert, KeyRound } from 'lucide-react';
+import { Lock, User, ArrowRight, ShieldAlert, KeyRound, ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,8 +43,19 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 relative">
+      {/* Back Button */}
+      <div className="absolute top-6 left-6 sm:top-8 sm:left-8">
+        <Link
+          href="/"
+          className="inline-flex items-center space-x-2 text-sm font-medium text-gray-600 hover:text-primary bg-white px-4 py-2 rounded-xl shadow-sm border border-gray-200 transition-all hover:shadow"
+        >
+          <ArrowLeft size={16} />
+          <span>Back to Home</span>
+        </Link>
+      </div>
+
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-xl border border-gray-100 mt-12 sm:mt-0">
         <div className="text-center">
           <div className="mx-auto h-12 w-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center font-bold text-xl mb-3">
             BBA
