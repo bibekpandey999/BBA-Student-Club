@@ -46,7 +46,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100 relative space-y-6">
         {/* Back Button inside the login card at the top left */}
-        <div>
+      
           <Link
             href="/"
             className="inline-flex items-center space-x-1.5 text-xs font-medium text-gray-600 hover:text-primary bg-gray-50 hover:bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 transition-all"
@@ -54,7 +54,6 @@ export default function LoginPage() {
             <ArrowLeft size={14} />
             <span>Back</span>
           </Link>
-        </div>
 
         <div className="text-center -mt-2">
           <div className="mx-auto h-12 w-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center font-bold text-xl mb-3">
