@@ -43,21 +43,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8 relative">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-xl border border-gray-100 relative space-y-6">
-        {/* Header row with Back button neatly aligned beside the title/logo section */}
-        <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+        {/* Back Button inside the login card at the top left */}
+        <div>
           <Link
             href="/"
-            className="inline-flex items-center space-x-1.5 text-xs font-semibold text-gray-500 hover:text-primary transition-colors bg-gray-50 hover:bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200"
+            className="inline-flex items-center space-x-1.5 text-xs font-medium text-gray-600 hover:text-primary bg-gray-50 hover:bg-gray-100 px-3 py-1.5 rounded-lg border border-gray-200 transition-all"
           >
             <ArrowLeft size={14} />
-            <span>Back to Home</span>
+            <span>Back</span>
           </Link>
-          <span className="text-xs font-mono text-gray-400 uppercase tracking-widest">Secure Portal</span>
         </div>
 
-        <div className="text-center">
+        <div className="text-center -mt-2">
           <div className="mx-auto h-12 w-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center font-bold text-xl mb-3">
             BBA
           </div>
